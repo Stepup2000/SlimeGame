@@ -17,10 +17,13 @@ public class Player : EasyDraw
 
     //private fields:
     private Vec2 _position;
+    private Vec2 _acceleration = new Vec2(0, 0.1f);
 
-    private float _speed;
     private float _maxSpeed = 3;
-    private float _speedIncrease = 0.15f;
+    private float _speedIncrease = 0.05f;
+    private float _jumpStrength = 10;
+    private float _jumpTimer = -1;
+    private float _jumpCooldown = 30;
 
     //----------------------------------------------------\\
     //						Constructor					  \\
@@ -39,6 +42,7 @@ public class Player : EasyDraw
     private void controls()
     {
         WASDInput();
+        spaceInput();
     }
 
     //----------------------------------------------------\\
@@ -46,19 +50,42 @@ public class Player : EasyDraw
     //----------------------------------------------------\\
     private void WASDInput()
     {
-        //Move to the right
-        if (Input.GetKey(Key.D) && _speed < _maxSpeed)
+        //Move to the left
+        if (Input.GetKey(Key.A) && velocity.x > -_maxSpeed)
         {
-            velocity += new Vec2(0.1f, 0);
-            _speed += _speedIncrease;
+            velocity += new Vec2(-_speedIncrease, 0);
         }
 
-        //Move to the left
-        if (Input.GetKey(Key.A) && _speed > -_maxSpeed)
+        //Move to the right
+        if (Input.GetKey(Key.D) && velocity.x < _maxSpeed)
         {
-            velocity += new Vec2(-0.1f, 0);
-            _speed -= _speedIncrease;
+            velocity += new Vec2(_speedIncrease, 0);
         }
+    }
+
+    //----------------------------------------------------\\
+    //						SpaceInput 					  \\
+    //----------------------------------------------------\\
+    private void spaceInput()
+    {
+        if (Input.GetKey(Key.SPACE) && canJump() == true)
+        {
+            velocity += new Vec2(0, -_jumpStrength);
+            _jumpTimer = _jumpCooldown;
+        }
+    }
+
+    //----------------------------------------------------\\
+    //						CanJump 					  \\
+    //----------------------------------------------------\\
+    private bool canJump()
+    {
+        //Do boundary check stuff
+        if (_jumpTimer == -1)
+        {
+            return true;
+        }
+        else return false;
     }
 
     //----------------------------------------------------\\
@@ -66,24 +93,16 @@ public class Player : EasyDraw
     //----------------------------------------------------\\
     private void deceleration()
     {
-        //Decelerate when no button is pressed
-        if (!Input.GetKey(Key.LEFT) && !Input.GetKey(Key.RIGHT))
+        //Decelerate when D and A are not pressed
+        if (!Input.GetKey(Key.D) && !Input.GetKey(Key.A))
         {
-            _speed *= 0.95f;
+            velocity.x *= 0.95f;
         }
 
-        if (_speed > -0.05f && _speed < 0.05f)
+        if (velocity.x > -0.05f && velocity.x < 0.05f)
         {
-            _speed = 0;
+            velocity.x = 0;
         }
-    }
-
-    //----------------------------------------------------\\
-    //						changeVelocity				  \\
-    //----------------------------------------------------\\
-    private void changeVelocity()
-    {
-        velocity = Vec2.GetUnitVectorDeg(rotation);
     }
 
     //----------------------------------------------------\\
@@ -91,8 +110,19 @@ public class Player : EasyDraw
     //----------------------------------------------------\\
     private void applyVelocity()
     {
-        velocity.NormalizeThis();
-        _position += velocity * _speed;
+        velocity += _acceleration;
+        _position += velocity;
+    }
+
+    //----------------------------------------------------\\
+    //						timers      				  \\
+    //----------------------------------------------------\\
+    private void timers()
+    {
+        if (_jumpTimer > -1)
+        {
+            _jumpTimer -= 1;
+        }
     }
 
     //----------------------------------------------------\\
@@ -121,8 +151,8 @@ public class Player : EasyDraw
     {
         controls();
         deceleration();
-        changeVelocity();
         applyVelocity();
+        timers();
         updateScreenPosition();
         draw();
     }
