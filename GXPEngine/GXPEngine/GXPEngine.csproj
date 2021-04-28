@@ -36,6 +36,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AABB.cs" />
     <Compile Include="Ball.cs" />
     <Compile Include="Collider.cs" />
     <Compile Include="CollHandler.cs" />
@@ -82,7 +83,6 @@
     <Compile Include="GXPEngine\SoLoud\SoloudSoundSystem.cs" />
     <Compile Include="Player1.cs" />
     <Compile Include="Player2.cs" />
-    <Compile Include="Rectangle.cs" />
     <Compile Include="Vec2.cs" />
   </ItemGroup>
 </Project>
