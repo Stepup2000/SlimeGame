@@ -18,7 +18,9 @@ public class MyGame : Game
 
         //add canvas to display list
         AddChild(canvas);
-        //------------------------------------------------end-of-example-code-------------------------
+		//------------------------------------------------end-of-example-code-------------------------
+		Player player = new Player(50, 50, 30);
+		AddChild(player);
     }
 
     void Update()
