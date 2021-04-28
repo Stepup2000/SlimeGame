@@ -10,7 +10,7 @@ namespace GXPEngine
 	public abstract class GameObject : Transformable
 	{
 		public string name;
-		private Collider _collider;
+		private Core.Collider _collider;
 		
 		private List<GameObject> _children = new List<GameObject>();
 		private GameObject _parent = null;
@@ -40,7 +40,7 @@ namespace GXPEngine
 		/// <summary>
 		/// Create and return a collider to use for this game object. Null is allowed.
 		/// </summary>
-		protected virtual Collider createCollider () {
+		protected virtual Core.Collider createCollider () {
 			return null;
 		}
 
@@ -64,7 +64,7 @@ namespace GXPEngine
 		//------------------------------------------------------------------------------------------------------------------------
 		//														collider
 		//------------------------------------------------------------------------------------------------------------------------
-		internal Collider collider {
+		internal Core.Collider collider {
 			get { return _collider; }
 		}
 		

@@ -36,6 +36,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ball.cs" />
+    <Compile Include="Collider.cs" />
+    <Compile Include="CollHandler.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="GXPEngine\AddOns\Gizmos.cs" />
     <Compile Include="GXPEngine\AddOns\TiledLoader.cs" />
     <Compile Include="MyGame.cs" />
@@ -76,6 +80,9 @@
     <Compile Include="GXPEngine\FMOD\FMODSoundSystem.cs" />
     <Compile Include="GXPEngine\SoLoud\Soloud.cs" />
     <Compile Include="GXPEngine\SoLoud\SoloudSoundSystem.cs" />
+    <Compile Include="Player1.cs" />
+    <Compile Include="Player2.cs" />
+    <Compile Include="Rectangle.cs" />
     <Compile Include="Vec2.cs" />
   </ItemGroup>
 </Project>
