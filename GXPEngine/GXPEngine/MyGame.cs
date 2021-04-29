@@ -19,7 +19,7 @@ public class MyGame : Game
         //add canvas to display list
         AddChild(canvas);
 		//------------------------------------------------end-of-example-code-------------------------
-		Player player = new Player(50, 50, 30);
+		Player1 player = new Player1(50, 50);
 		AddChild(player);
     }
 
