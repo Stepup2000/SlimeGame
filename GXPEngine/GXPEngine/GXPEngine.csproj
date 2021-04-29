@@ -38,6 +38,7 @@
   <ItemGroup>
     <Compile Include="AABB.cs" />
     <Compile Include="Ball.cs" />
+    <Compile Include="Smoke.cs" />
     <Compile Include="Collider.cs" />
     <Compile Include="CollHandler.cs" />
     <Compile Include="GXPEngine\AddOns\Gizmos.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="GXPEngine\SoLoud\SoloudSoundSystem.cs" />
     <Compile Include="Player1.cs" />
     <Compile Include="Player2.cs" />
+    <Compile Include="Rock.cs" />
     <Compile Include="Vec2.cs" />
   </ItemGroup>
 </Project>
