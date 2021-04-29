@@ -40,7 +40,6 @@
     <Compile Include="Ball.cs" />
     <Compile Include="Collider.cs" />
     <Compile Include="CollHandler.cs" />
-    <Compile Include="Player.cs" />
     <Compile Include="GXPEngine\AddOns\Gizmos.cs" />
     <Compile Include="GXPEngine\AddOns\TiledLoader.cs" />
     <Compile Include="MyGame.cs" />
