@@ -20,10 +20,11 @@ class LightBeam : AnimationSprite
 	//----------------------------------------------------\\
 	//						Constructor					  \\
 	//----------------------------------------------------\\
-	public LightBeam(float newX, float newY, int newDirection) : base("checkers", 1, 1)
+	public LightBeam(float px, float py, int newDirection) : base("checkers.png", 1, 1)
 	{
 		SetOrigin(width / 2, height / 2);
-		SetXY(newX, newY);
+		_position.x = px;
+		_position.y = py;
 		changeDirection(newDirection);
 	}
 
@@ -40,8 +41,17 @@ class LightBeam : AnimationSprite
 	//----------------------------------------------------\\
 	private void applyVelocity()
 	{
-		velocity.NormalizeThis();
+		//velocity.NormalizeThis();
 		_position += velocity * _speed;
+	}
+
+	//----------------------------------------------------\\
+	//						updateScreenPosition		  \\
+	//----------------------------------------------------\\
+	private void updateScreenPosition()
+	{
+		x = _position.x;
+		y = _position.y;
 	}
 
 	//----------------------------------------------------\\
@@ -50,5 +60,6 @@ class LightBeam : AnimationSprite
 	public void Update()
 	{
 		applyVelocity();
+		updateScreenPosition();
 	}
 }

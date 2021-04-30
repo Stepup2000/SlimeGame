@@ -1,7 +1,7 @@
 ﻿using GXPEngine;
 using System;
 
-class Crystal : AnimationSprite
+class StaticCrystal : AnimationSprite
 {
 	//Private fields
 	int _reflectAngle;
@@ -10,7 +10,7 @@ class Crystal : AnimationSprite
 	//----------------------------------------------------\\
 	//						Constructor					  \\
 	//----------------------------------------------------\\
-	public Crystal(float newX, float newY, int newReflectAngle) : base("checkers", 1, 1)
+	public StaticCrystal(float newX, float newY, int newReflectAngle) : base("checkers.png", 1, 1)
 	{
 		SetOrigin(width / 2, height / 2);
 		SetXY(newX, newY);
@@ -23,7 +23,7 @@ class Crystal : AnimationSprite
 	//----------------------------------------------------\\
 	private void collision()
 	{
-		//insert collision stuff
+		//insert collision stuff and destroy lightbeam
 		LightBeam lightBeam = new LightBeam(x, y, _reflectAngle);
 		game.AddChild(lightBeam);
 	}

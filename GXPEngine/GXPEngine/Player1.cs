@@ -28,6 +28,7 @@ public class Player1 : AnimationSprite
     private float _scale = 1;
     private float _jumpTimer = -1;
     private float _abilityTimer = -1;
+    private string _orientation = "Right";
 
 
     //----------------------------------------------------\\
@@ -69,6 +70,7 @@ public class Player1 : AnimationSprite
         {
             velocity += new Vec2(-_speedIncrease, 0);
             Mirror(true, false);
+            _orientation = "Left";
         }
 
         //Move to the right
@@ -76,6 +78,7 @@ public class Player1 : AnimationSprite
         {
             velocity += new Vec2(_speedIncrease, 0);
             Mirror(false, false);
+            _orientation = "Right";
         }
     }
 
@@ -95,6 +98,11 @@ public class Player1 : AnimationSprite
             grow();
             _abilityTimer = _abilityCooldown;
         }
+        if (Input.GetKey(Key.R) && _abilityTimer == -1)
+        {
+            shoot();
+        }
+
     }
 
     //----------------------------------------------------\\
@@ -167,6 +175,17 @@ public class Player1 : AnimationSprite
     {
         if (_abilityTimer == -1)
         {
+            if (_orientation == "Right")
+            {
+                LightBeam lightBeam = new LightBeam(x, y, 0);
+                game.AddChild(lightBeam);
+            }
+
+            if (_orientation == "Left")
+            {
+                LightBeam lightBeam = new LightBeam(x, y, 180);
+                game.AddChild(lightBeam);
+            }
             _abilityTimer = _abilityCooldown;
         }
     }
@@ -242,5 +261,6 @@ public class Player1 : AnimationSprite
         timers();
         updateScreenPosition();
         Animate();
+        System.Console.WriteLine(_orientation);
     }
 }

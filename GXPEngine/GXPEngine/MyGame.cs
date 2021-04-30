@@ -15,7 +15,7 @@ public class MyGame : Game
 		//------------------------------------------------end-of-example-code-------------------------
 		Player1 player = new Player1(50, 250);
 		AddChild(player);
-    }
+	}
 
     void Update()
 	{
