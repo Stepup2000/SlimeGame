@@ -62,7 +62,6 @@ public class Player1 : AnimationSprite
             velocity.y /= 2;
             velocity += new Vec2(0, -_jumpStrength);
             _jumpTimer = _jumpCooldown;
-            SetCycle(9, 15, 10);
         }
 
         //Move to the left
@@ -158,6 +157,17 @@ public class Player1 : AnimationSprite
         {
             _scale -= 0.5f;
             changeScale();
+        }
+    }
+
+    //----------------------------------------------------\\
+    //						shoot        				  \\
+    //----------------------------------------------------\\
+    private void shoot()
+    {
+        if (_abilityTimer == -1)
+        {
+            _abilityTimer = _abilityCooldown;
         }
     }
 

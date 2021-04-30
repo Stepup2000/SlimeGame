@@ -38,6 +38,8 @@
   <ItemGroup>
     <Compile Include="AABB.cs" />
     <Compile Include="Ball.cs" />
+    <Compile Include="Crystal.cs" />
+    <Compile Include="LightBeam.cs" />
     <Compile Include="Smoke.cs" />
     <Compile Include="Collider.cs" />
     <Compile Include="CollHandler.cs" />
