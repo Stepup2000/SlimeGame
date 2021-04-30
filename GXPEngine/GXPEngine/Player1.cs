@@ -17,9 +17,8 @@ public class Player1 : AnimationSprite
 
     //private fields:
     private Vec2 _position;
-    private Vec2 _acceleration = new Vec2(0, 0f);
+    private Vec2 _acceleration = new Vec2(0, 0.1f);
 
-    
     private readonly float _maxSpeed = 3;
     private readonly float _speedIncrease = 0.05f;
     private readonly float _jumpStrength = 10;
@@ -29,14 +28,16 @@ public class Player1 : AnimationSprite
     private float _scale = 1;
     private float _jumpTimer = -1;
     private float _abilityTimer = -1;
-    
+
 
     //----------------------------------------------------\\
     //						Constructor					  \\
     //----------------------------------------------------\\
-    public Player1(float px, float py) : base("Barry.png", 7, 1)
+    public Player1(float px, float py) : base("RockySlimeSpritesheet.png", 8, 3)
     {
-        SetOrigin(width/2, height/2);
+        SetOrigin(width / 2, height);
+        SetCycle(1, 7, 10);
+        changeScale();
         _position.x = px;
         _position.y = py;
     }
@@ -58,20 +59,24 @@ public class Player1 : AnimationSprite
         //Jump
         if (Input.GetKey(Key.W) && canJump() == true)
         {
+            velocity.y /= 2;
             velocity += new Vec2(0, -_jumpStrength);
             _jumpTimer = _jumpCooldown;
+            SetCycle(9, 15, 10);
         }
 
         //Move to the left
         if (Input.GetKey(Key.A) && velocity.x > -_maxSpeed)
         {
             velocity += new Vec2(-_speedIncrease, 0);
+            Mirror(true, false);
         }
 
         //Move to the right
         if (Input.GetKey(Key.D) && velocity.x < _maxSpeed)
         {
             velocity += new Vec2(_speedIncrease, 0);
+            Mirror(false, false);
         }
     }
 
@@ -140,7 +145,7 @@ public class Player1 : AnimationSprite
         if (_scale < 1.5f)
         {
             _scale += 0.5f;
-            changeAnimationCycle();
+            changeScale();
         }
     }
 
@@ -152,7 +157,7 @@ public class Player1 : AnimationSprite
         if (_scale > 0.5f)
         {
             _scale -= 0.5f;
-            changeAnimationCycle();
+            changeScale();
         }
     }
 
@@ -177,26 +182,33 @@ public class Player1 : AnimationSprite
     //----------------------------------------------------\\
     private void changeAnimationCycle()
     {
-        switch(_scale)
+
+        if (velocity.x != 0 && velocity.y == 0)
         {
-            //Small
-            case 0.5f:
-                SetCycle(1, 1, 0);
-                SetFrame(1);
-                break;
+            SetCycle(1, 7, 10);
+            if (velocity.x > 0)
+            {
+                Mirror(false, false);
+            }
 
-            //Medium
-            case 1:
-                SetCycle(2, 2, 0);
-                SetFrame(2);
-                break;
-
-            //Big
-            case 1.5f:
-                SetCycle(3, 3, 0);
-                SetFrame(3);
-                break;
+            if (velocity.x < 0)
+            {
+                Mirror(true, false);
+            }
         }
+        else
+        {
+            SetFrame(0);
+        }
+    }
+
+    //----------------------------------------------------\\
+    //						changeScale         		  \\
+    //----------------------------------------------------\\
+    private void changeScale()
+    {
+        scaleX = _scale / 2;
+        scaleY = _scale / 2;
     }
 
     //----------------------------------------------------\\
@@ -216,8 +228,9 @@ public class Player1 : AnimationSprite
         controls();
         deceleration();
         applyVelocity();
+        changeAnimationCycle();
         timers();
         updateScreenPosition();
-        System.Console.WriteLine(_scale);
+        Animate();
     }
 }
