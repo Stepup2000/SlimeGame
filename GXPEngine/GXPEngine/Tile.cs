@@ -5,7 +5,11 @@ using System.Text;
 
 namespace GXPEngine
 {
-    class CollHandler
+    public class Tile : Box
     {
+        public Tile() : base("checkers.png", 32, 32)
+        {
+
+        }
     }
 }

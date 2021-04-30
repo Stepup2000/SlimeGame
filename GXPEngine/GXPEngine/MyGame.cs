@@ -1,40 +1,43 @@
-using System;									// System contains a lot of default C# libraries 
-using System.Drawing;                           // System.Drawing contains a library used for canvas drawing below
-using GXPEngine;								// GXPEngine contains the engine
+using System;
+using System.Drawing;
+using GXPEngine;
+
+// Code architecture basis (Body->Circle->Player with
+// circle/circle overlaps) by Bram den Hond
 
 public class MyGame : Game
 {
-	public MyGame() : base(800, 600, false)		// Create a window that's 800x600 and NOT fullscreen
-	{
-        //----------------------------------------------------example-code----------------------------
-        //create a canvas
-        Canvas canvas = new Canvas(800, 600);
+    World world;
 
-        //add some content
-        canvas.graphics.FillRectangle(new SolidBrush(Color.Red), new Rectangle(0, 0, 400, 300));
-        canvas.graphics.FillRectangle(new SolidBrush(Color.Blue), new Rectangle(400, 0, 400, 300));
-        canvas.graphics.FillRectangle(new SolidBrush(Color.Yellow), new Rectangle(0, 300, 400, 300));
-        canvas.graphics.FillRectangle(new SolidBrush(Color.Gray), new Rectangle(400, 300, 400, 300));
+    public MyGame() : base(800, 600, false)     // Create a window that's 800x600 and NOT fullscreen
+    {
+        world = new World();
+        AddChild(world);
 
-        //add canvas to display list
-        AddChild(canvas);
-		//------------------------------------------------end-of-example-code-------------------------
-		Player1 player = new Player1(50, 50);
-		AddChild(player);
+        Player player = new Player(new Vec2(0, 1));
+        player.acceleration = new Vec2(0, 0.2f);
+        world.AddBody(player);
+        player.SetPosition(100, 100);
+
+        Ball ball = new Ball();
+        world.AddBody(ball);
+        ball.SetPosition(305, 110);
+
+        for (int i = 0; i < game.width; i += 64)
+        {
+            Tile tile = new Tile();
+            world.AddBody(tile);
+            tile.SetPosition(i, game.height / 2);
+        }
     }
 
     void Update()
-	{
-		//----------------------------------------------------example-code----------------------------
-		if (Input.GetKeyDown(Key.SPACE)) // When space is pressed...
-		{
-			new Sound("ping.wav").Play(); // ...play a sound
-		}
-		//------------------------------------------------end-of-example-code-------------------------
-	}
+    {
+        world.Step();
+    }
 
-	static void Main()							// Main() is the first method that's called when the program is run
-	{
-		new MyGame().Start();					// Create a "MyGame" and start it
-	}
+    static void Main()                          // Main() is the first method that's called when the program is run
+    {
+        new MyGame().Start();                   // Create a "MyGame" and start it
+    }
 }

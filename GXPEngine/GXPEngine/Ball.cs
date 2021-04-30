@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 namespace GXPEngine
 {
-    class Ball
+    public class Ball : Circle
     {
+        public Ball() : base("circle.png", 32f)
+        {
+        }
     }
 }
