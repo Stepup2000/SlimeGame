@@ -36,13 +36,12 @@ namespace GXPEngine
             if (other is Circle)
             {
                 return GetCircleOverlap(other as Circle);
-
             }
             if (other is Box)
             {
                 return GetBoxOverlap(other as Box);
             }
-            return new CollisionInfo(new Vec2(0f, 0f), 0f);
+            return null;
         }
     }
 }

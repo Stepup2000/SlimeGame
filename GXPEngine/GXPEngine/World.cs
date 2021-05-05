@@ -45,9 +45,9 @@ namespace GXPEngine
                     CollisionInfo info = bodies[i].GetOverlap(bodies[j]);
                     if (info != null) 
                     {
-                        if (info.distance < 32f)
+                        if (info.overlap < 32f)
                         {
-                            ResolveOverlap(bodies[i], bodies[j], info.normal, info.distance);
+                            ResolveOverlap(bodies[i], bodies[j], info.normal, info.overlap);
                         }
                     }
                 }
