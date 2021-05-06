@@ -1,9 +1,9 @@
 ﻿using GXPEngine;
 
-public class Player1 : AnimationSprite
+public class Player1 : Box
 {
     // public fields & properties:
-    public Vec2 position
+    /*public Vec2 position
     {
         get
         {
@@ -11,22 +11,17 @@ public class Player1 : AnimationSprite
         }
     }
 
-    public Vec2 velocity;
+    public Vec2 velocity;*/
 
-    public int _radius;
+    public bool canJump { get; set; }
 
     //private fields:
-    private Vec2 _position;
-    private Vec2 _acceleration = new Vec2(0, 0.1f);
-
     private readonly float _maxSpeed = 3;
     private readonly float _speedIncrease = 0.05f;
-    private readonly float _jumpStrength = 10;
-    private readonly float _jumpCooldown = 30;
+    private readonly float _jumpStrength = 4;
     private readonly float _abilityCooldown = 30;
 
     private float _scale = 1;
-    private float _jumpTimer = -1;
     private float _abilityTimer = -1;
     private string _orientation = "Right";
 
@@ -34,13 +29,13 @@ public class Player1 : AnimationSprite
     //----------------------------------------------------\\
     //						Constructor					  \\
     //----------------------------------------------------\\
-    public Player1(float px, float py) : base("RockySlimeSpritesheet.png", 8, 3)
+    public Player1() : base("colors.png", 32f, 32f, true, false)
     {
+        halfWidth = width / 2 * _scale;
+        halfHeight = height / 2 * _scale;
         SetOrigin(width / 2, height);
         SetCycle(1, 7, 10);
         changeScale();
-        _position.x = px;
-        _position.y = py;
     }
 
     //----------------------------------------------------\\
@@ -58,11 +53,11 @@ public class Player1 : AnimationSprite
     private void WASDInput()
     {
         //Jump
-        if (Input.GetKey(Key.W) && canJump() == true)
+        if (Input.GetKeyDown(Key.W) && canJump == true)
         {
             velocity.y /= 2;
             velocity += new Vec2(0, -_jumpStrength);
-            _jumpTimer = _jumpCooldown;
+            canJump = false;
         }
 
         //Move to the left
@@ -106,19 +101,6 @@ public class Player1 : AnimationSprite
     }
 
     //----------------------------------------------------\\
-    //						CanJump 					  \\
-    //----------------------------------------------------\\
-    private bool canJump()
-    {
-        //Do boundary check stuff
-        if (_jumpTimer == -1)
-        {
-            return true;
-        }
-        else return false;
-    }
-
-    //----------------------------------------------------\\
     //						deceleration				  \\
     //----------------------------------------------------\\
     private void deceleration()
@@ -133,15 +115,6 @@ public class Player1 : AnimationSprite
         {
             velocity.x = 0;
         }
-    }
-
-    //----------------------------------------------------\\
-    //						applyVelocity				  \\
-    //----------------------------------------------------\\
-    private void applyVelocity()
-    {
-        velocity += _acceleration;
-        _position += velocity;
     }
 
     //----------------------------------------------------\\
@@ -195,10 +168,6 @@ public class Player1 : AnimationSprite
     //----------------------------------------------------\\
     private void timers()
     {
-        if (_jumpTimer > -1)
-        {
-            _jumpTimer -= 1;
-        }
 
         if (_abilityTimer > -1)
         {
@@ -238,29 +207,28 @@ public class Player1 : AnimationSprite
     {
         scaleX = _scale / 2;
         scaleY = _scale / 2;
+
+        halfWidth = width / 2 * _scale;
+        halfHeight = height / 2 * _scale;
     }
 
     //----------------------------------------------------\\
-    //						updateScreenPosition		  \\
+    //						Step                 		  \\
     //----------------------------------------------------\\
-    private void updateScreenPosition()
-    {
-        x = _position.x;
-        y = _position.y;
-    }
-
-    //----------------------------------------------------\\
-    //						Update  					  \\
-    //----------------------------------------------------\\
-    public void Update()
+    public override void Step()
     {
         controls();
         deceleration();
-        applyVelocity();
         changeAnimationCycle();
         timers();
-        updateScreenPosition();
         Animate();
         System.Console.WriteLine(_orientation);
+
+        velocity += acceleration;
+        position += velocity * (1 / _scale);
+
+        x = position.x;
+        y = position.y;
+
     }
 }

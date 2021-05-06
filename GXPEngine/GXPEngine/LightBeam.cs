@@ -1,7 +1,7 @@
 ﻿using GXPEngine;
 using System;
 
-class LightBeam : AnimationSprite
+class LightBeam : Box
 {
 	//Private fields
 	private int _speed = 20;

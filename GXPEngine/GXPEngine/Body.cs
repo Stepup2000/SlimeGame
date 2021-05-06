@@ -16,7 +16,7 @@ namespace GXPEngine
             if (movable)
             {
                 velocity = new Vec2(0f, 0f);
-                acceleration = new Vec2(0f, 0f);
+                acceleration = new Vec2(0f, 0.1f);
             }
 
             SetOrigin(width * 0.5f, height * 0.5f);
@@ -36,7 +36,7 @@ namespace GXPEngine
             return new CollisionInfo(new Vec2(0f, 0f), 0f);
         }
 
-        public void Step()
+        public virtual void Step()
         {
             velocity += acceleration;
             position += velocity;

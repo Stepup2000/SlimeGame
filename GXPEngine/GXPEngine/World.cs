@@ -33,10 +33,10 @@ namespace GXPEngine
         private void HandleIntegration() {
             foreach (Body body in bodies)
             {
-                if (body.movable)
-                {
+                //if (body.movable)
+                //{
                     body.Step();
-                }
+                //}
             }
         }
 
@@ -64,11 +64,16 @@ namespace GXPEngine
 
             Vec2 separation = normal * distance /** 0.5f*/;
 
+            if (body1 is Player1 /*|| body1 is Player2*/ && floored)
+            {
+                (body1 as Player1).canJump = true;
+            }
+
             /*if (body1 is Player && body2 is Player)         // funny player bounciness
             {
                 bounceBalls((Circle)body1, (Circle)body2, normal);
             }
-            else*/ if (body1 is Player && body2 is Rock) 
+            else*/ if (body1 is Player1 && body2 is Rock) 
             {
                 (body2 as Rock).Delete();
                 RemoveBody(body2);
@@ -84,11 +89,12 @@ namespace GXPEngine
 
             else if (body2 is Box && (body2 as Box).clippable && normal.y == 0)
             {
-                body1.position.y -= (body2 as Box).halfHeight * 2;
+                body1.position.y = body2.position.y - (body2 as Box).halfHeight - (body1 as Box).halfHeight;
             }
 
             body1.position += separation;
-            if (floored) body1.velocity = new Vec2(0, 0);
+            if (normal.x == 0) body1.velocity.y = 0;
+            if (normal.y == 0) body1.velocity.x = 0;
         }
     }
 }

@@ -36,7 +36,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AABB.cs" />
     <Compile Include="Ball.cs" />
     <Compile Include="Body.cs" />
     <Compile Include="Box.cs" />
@@ -83,7 +82,6 @@
     <Compile Include="GXPEngine\FMOD\FMODSoundSystem.cs" />
     <Compile Include="GXPEngine\SoLoud\Soloud.cs" />
     <Compile Include="GXPEngine\SoLoud\SoloudSoundSystem.cs" />
-    <Compile Include="Player.cs" />
     <Compile Include="Player1.cs" />
     <Compile Include="Rock.cs" />
     <Compile Include="RotatingCrystal.cs" />
