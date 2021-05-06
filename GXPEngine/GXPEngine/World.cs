@@ -20,7 +20,8 @@ namespace GXPEngine
 
         public void RemoveBody(Body body)
         {
-            //TODO
+            RemoveChild(body);
+            bodies.Remove(body);
         }
 
         public void Step()
@@ -32,7 +33,10 @@ namespace GXPEngine
         private void HandleIntegration() {
             foreach (Body body in bodies)
             {
-                body.Step();
+                if (body.movable)
+                {
+                    body.Step();
+                }
             }
         }
 
@@ -47,22 +51,44 @@ namespace GXPEngine
                     {
                         if (info.overlap < 32f)
                         {
-                            ResolveOverlap(bodies[i], bodies[j], info.normal, info.overlap);
+                            ResolveOverlap(bodies[i], bodies[j], info.normal, info.overlap, info.isFloored);
                         }
                     }
                 }
             }
         }
 
-        private void ResolveOverlap(Body body1, Body body2, Vec2 normal, float distance)
+        private void ResolveOverlap(Body body1, Body body2, Vec2 normal, float distance, bool floored)
         {
-            // very simple sample overlap resolve by Bram, both objects pushed.
-            // TODO: adapt for immovables (like floor)
-            Vec2 separation = normal * distance /** 0.5f*/;
-            body1.position += separation;
-            body1.velocity = new Vec2(0, 0);
-            //body2.position -= separation;
-        }
+            // works BETTER if all bodies are Boxes.
 
+            Vec2 separation = normal * distance /** 0.5f*/;
+
+            /*if (body1 is Player && body2 is Player)         // funny player bounciness
+            {
+                bounceBalls((Circle)body1, (Circle)body2, normal);
+            }
+            else*/ if (body1 is Player && body2 is Rock) 
+            {
+                (body2 as Rock).Delete();
+                RemoveBody(body2);
+            }
+            /*else if (body1 is Player && body2 is Exit)
+            {
+                gotoendscene
+            }*/
+            else if (body2.movable && normal.y == 0)
+            {
+                body2.position -= separation;
+            }
+
+            else if (body2 is Box && (body2 as Box).clippable && normal.y == 0)
+            {
+                body1.position.y -= (body2 as Box).halfHeight * 2;
+            }
+
+            body1.position += separation;
+            if (floored) body1.velocity = new Vec2(0, 0);
+        }
     }
 }

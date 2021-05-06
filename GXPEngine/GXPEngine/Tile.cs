@@ -7,7 +7,7 @@ namespace GXPEngine
 {
     public class Tile : Box
     {
-        public Tile() : base("checkers.png", 32, 32)
+        public Tile(bool isMovable = false, bool isClippable = false) : base("checkers.png", 32, 32, isMovable, isClippable)
         {
 
         }

@@ -9,10 +9,13 @@ namespace GXPEngine
     {
         public float halfWidth;
         public float halfHeight;
-        public Box(string filename, float pHalfWidth, float pHalfHeight) : base(filename)
+        public bool clippable;
+        public Box(string filename, float pHalfWidth, float pHalfHeight, 
+            bool pMovable = false, bool pClippable = false) : base(filename, pMovable)
         {
             halfWidth = pHalfWidth;
             halfHeight = pHalfHeight;
+            clippable = pClippable;
         }
 
         private CollisionInfo GetCircleOverlap(Circle other)
@@ -45,14 +48,14 @@ namespace GXPEngine
                 overlap_v = other.position.y + other.halfHeight - (this.position.y - this.halfHeight);
                 if (overlap_v <= 0) return null;
             }
+
             if (overlap_h > overlap_v) 
                 // reverse logic because the bigger overlap actually happens from the INVERSE direction
-                // possible CollisionInfo change: throw boolean for floor (to set velocity to 0 or not)
-                // TODO: force trigger first return here on surfaces that should clip you
             {
                 if (this.position.y <= other.position.y)
                 {
-                    return new CollisionInfo(new Vec2(-other.halfWidth, 0).UnitNormal(), overlap_v);
+                    // true = isFloored (for velocity reset)
+                    return new CollisionInfo(new Vec2(-other.halfWidth, 0).UnitNormal(), overlap_v, true);
                 }
                 else
                 {

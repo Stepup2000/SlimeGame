@@ -1,7 +1,7 @@
 ﻿using GXPEngine;
 using System;
 
-class Rock : Sprite
+class Rock : Box
 {
 	//Private fields
 	private MyGame _myGame;
@@ -9,10 +9,10 @@ class Rock : Sprite
 	//----------------------------------------------------\\
 	//						Constructor					  \\
 	//----------------------------------------------------\\
-	public Rock(float newX, float newY) : base("checkers")
+	public Rock() : base("colors.png", 32, 32, false, false)
 	{
 		SetOrigin(width/2, height/2);
-		SetXY(newX, newY);
+		
 		_myGame = (MyGame)game;
 	}
 
@@ -26,7 +26,7 @@ class Rock : Sprite
 	//----------------------------------------------------\\
 	//						delete						  \\
 	//----------------------------------------------------\\
-	private void delete()
+	public void Delete()
 	{
 		createSmoke();
 		LateDestroy();
@@ -38,7 +38,7 @@ class Rock : Sprite
 	private void createSmoke()
 	{
 		Smoke smoke = new Smoke(x, y, 1);
-		AddChild(game);
+		AddChild(smoke);
 	}
 
 	//----------------------------------------------------\\

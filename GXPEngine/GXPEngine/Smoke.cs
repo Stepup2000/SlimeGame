@@ -8,7 +8,7 @@ class Smoke : AnimationSprite
 	//----------------------------------------------------\\
 	//						Constructor					  \\
 	//----------------------------------------------------\\
-	public Smoke(float newX, float newY, float size) : base("checkers", 1, 1)
+	public Smoke(float newX, float newY, float size) : base("checkers.png", 1, 1)
 	{
 		SetOrigin(width / 2, height / 2);
 		SetXY(newX, newY);

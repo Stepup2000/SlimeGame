@@ -19,13 +19,18 @@ public class MyGame : Game
         world.AddBody(player);
         player.SetPosition(64, 100);
 
-        Ball ball = new Ball();
-        world.AddBody(ball);
-        ball.SetPosition(305, 110);
+        Player player2 = new Player(new Vec2(0, 1f));
+        player2.acceleration = new Vec2(0, 0.3f);
+        world.AddBody(player2);
+        player2.SetPosition(305, 110);
 
-        /*Tile tile = new Tile();
-        world.AddBody(tile);
-        tile.SetPosition(64, game.height / 2);*/
+        /*Ball ball = new Ball();
+        world.AddBody(ball);
+        ball.SetPosition(305, 110);*/
+
+        Rock tilea = new Rock();
+        world.AddBody(tilea);
+        tilea.SetPosition(128, game.height / 2 - 64);
 
         for (int i = 0; i < game.width; i += 64)
         {

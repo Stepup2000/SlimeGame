@@ -4,8 +4,15 @@ namespace GXPEngine
     public class Circle : Body
     {
         public float radius;
+        public float Mass
+        {
+            get
+            {
+                return radius * radius;
+            }
+        }
 
-        public Circle(string filename, float radius) : base(filename)
+        public Circle(string filename, float radius, bool pMovable = false) : base(filename, pMovable)
         {
             this.radius = radius;
         }
@@ -25,7 +32,7 @@ namespace GXPEngine
             Vec2 distance = circlePoint - this.position;
             if (distance.Length() < radius)
             {
-                return new CollisionInfo(distance.NewNormalized(), -(radius - distance.Length()));
+                return new CollisionInfo(distance.NewNormalized(), -(radius - distance.Length()), true);
             }
             return null;
         }

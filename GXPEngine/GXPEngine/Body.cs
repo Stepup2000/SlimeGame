@@ -4,22 +4,31 @@ namespace GXPEngine
     public class Body : AnimationSprite
     {
 
-        public Vec2 position;
+        public Vec2 position = new Vec2(0f, 0f);
         public Vec2 velocity;
-        public Vec2 acceleration = new Vec2(0, 0);
+        public Vec2 acceleration;
+        public bool movable;
 
-        public Body(string filename) : base(filename, 1, 1)
+        public Body(string filename, bool pMovable = false) : base(filename, 1, 1)
         {
-            position = new Vec2(0f, 0f);
-            velocity = new Vec2(0f, 0f);
+            movable = pMovable;
+
+            if (movable)
+            {
+                velocity = new Vec2(0f, 0f);
+                acceleration = new Vec2(0f, 0f);
+            }
 
             SetOrigin(width * 0.5f, height * 0.5f);
         }
 
-        public void SetPosition(float x, float y)
+        public void SetPosition(float tempX, float tempY)
         {
-            position.x = x;
-            position.y = y;
+            position.x = tempX;
+            position.y = tempY;
+
+            x = position.x;
+            y = position.y;
         }
 
         public virtual CollisionInfo GetOverlap(Body other)
