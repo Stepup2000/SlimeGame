@@ -62,6 +62,9 @@ namespace GXPEngine
         {
             // works BETTER if all bodies are Boxes.
 
+            // currently BUG: on clippable in edge cases body1 will remain in body2
+            // and therefore clip downward and through the floor.
+
             Vec2 separation = normal * distance /** 0.5f*/;
 
             if (body1 is Player1 /*|| body1 is Player2*/ && floored)
@@ -69,11 +72,7 @@ namespace GXPEngine
                 (body1 as Player1).canJump = true;
             }
 
-            /*if (body1 is Player && body2 is Player)         // funny player bounciness
-            {
-                bounceBalls((Circle)body1, (Circle)body2, normal);
-            }
-            else*/ if (body1 is Player1 && body2 is Rock) 
+            if (body1 is Player1 && body2 is Rock) 
             {
                 (body2 as Rock).Delete();
                 RemoveBody(body2);
@@ -84,12 +83,24 @@ namespace GXPEngine
             }*/
             else if (body2.movable && normal.y == 0)
             {
-                body2.position -= separation;
+                if (normal.x < 0)
+                {
+                    body2.position -= separation * body1.velocity.x;
+                    body1.position += separation * body1.velocity.x;
+                    return;
+                }
+                else if (normal.x > 0)
+                {
+                    body2.position += separation * body1.velocity.x;
+                    body1.position -= separation * body1.velocity.x;
+                    return;
+                }
             }
 
             else if (body2 is Box && (body2 as Box).clippable && normal.y == 0)
             {
                 body1.position.y = body2.position.y - (body2 as Box).halfHeight - (body1 as Box).halfHeight;
+                return;
             }
 
             body1.position += separation;

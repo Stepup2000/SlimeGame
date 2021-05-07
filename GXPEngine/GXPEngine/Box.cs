@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace GXPEngine
+﻿namespace GXPEngine
 {
     public class Box : Body
     {
@@ -78,13 +73,13 @@ namespace GXPEngine
 
         public override CollisionInfo GetOverlap(Body other)
         {
-            if (other is Circle)
-            {
-                return GetCircleOverlap(other as Circle);
-            }
             if (other is Box)
             {
                 return GetBoxOverlap(other as Box);
+            }
+            else if (other is Circle)
+            {
+                return GetCircleOverlap(other as Circle);
             }
             return null;
         }

@@ -222,7 +222,7 @@ public class Player1 : Box
         changeAnimationCycle();
         timers();
         Animate();
-        System.Console.WriteLine(_orientation);
+        //System.Console.WriteLine(_orientation);
 
         velocity += acceleration;
         position += velocity * (1 / _scale);

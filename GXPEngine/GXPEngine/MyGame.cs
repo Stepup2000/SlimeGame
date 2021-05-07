@@ -9,7 +9,7 @@ public class MyGame : Game
 {
     World world;
 
-    public MyGame() : base(800, 600, false)     // Create a window that's 800x600 and NOT fullscreen
+    public MyGame() : base(1920, 1080, false)
     {
         world = new World();
         AddChild(world);
@@ -18,7 +18,7 @@ public class MyGame : Game
         world.AddBody(player);
         player.SetPosition(64, 100);
 
-        Tile tilea = new Tile(false, true);
+        Tile tilea = new Tile(true, false);
         world.AddBody(tilea);
         tilea.SetPosition(128, game.height / 2 - 64);
 
