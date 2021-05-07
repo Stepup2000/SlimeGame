@@ -35,7 +35,6 @@ public class Player1 : Box
         halfHeight = height / 2 * _scale;
         SetOrigin(width / 2, height);
         SetCycle(1, 7, 10);
-        changeScale();
     }
 
     //----------------------------------------------------\\
@@ -205,11 +204,11 @@ public class Player1 : Box
     //----------------------------------------------------\\
     private void changeScale()
     {
-        scaleX = _scale / 2;
-        scaleY = _scale / 2;
+        scaleX = _scale;
+        scaleY = _scale;
 
-        halfWidth = width / 2 * _scale;
-        halfHeight = height / 2 * _scale;
+        halfWidth = width / 2;
+        halfHeight = height / 2;
     }
 
     //----------------------------------------------------\\
@@ -222,13 +221,11 @@ public class Player1 : Box
         changeAnimationCycle();
         timers();
         Animate();
-        //System.Console.WriteLine(_orientation);
 
         velocity += acceleration;
         position += velocity * (1 / _scale);
 
         x = position.x;
-        y = position.y;
-
+        y = position.y + height / 2;
     }
 }

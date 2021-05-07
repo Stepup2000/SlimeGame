@@ -65,6 +65,8 @@ namespace GXPEngine
             // currently BUG: on clippable in edge cases body1 will remain in body2
             // and therefore clip downward and through the floor.
 
+            // current problem: code assumes every origin is in the middle.
+
             Vec2 separation = normal * distance /** 0.5f*/;
 
             if (body1 is Player1 /*|| body1 is Player2*/ && floored)
@@ -87,14 +89,13 @@ namespace GXPEngine
                 {
                     body2.position -= separation * body1.velocity.x;
                     body1.position += separation * body1.velocity.x;
-                    return;
                 }
                 else if (normal.x > 0)
                 {
                     body2.position += separation * body1.velocity.x;
                     body1.position -= separation * body1.velocity.x;
-                    return;
                 }
+                return;
             }
 
             else if (body2 is Box && (body2 as Box).clippable && normal.y == 0)
