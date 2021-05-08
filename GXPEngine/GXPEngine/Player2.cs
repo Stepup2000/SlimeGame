@@ -1,6 +1,6 @@
 ﻿using GXPEngine;
 
-public class Player1 : Box
+public class Player2 : Box
 {
     // public fields & properties:
 
@@ -12,17 +12,17 @@ public class Player1 : Box
     private readonly float _jumpStrength = 4;
     private readonly float _abilityCooldown = 30;
 
-    private float _scale = 1;
     private float _abilityTimer = -1;
+    private int _lastDirection;
 
     //----------------------------------------------------\\
     //						Constructor					  \\
     //----------------------------------------------------\\
-    public Player1() : base("colors.png", 32f, 32f, true, false)
+    public Player2() : base("colors.png", 32f, 32f, true, false)
     {
-        halfWidth = width / 2 * _scale;
-        halfHeight = height / 2 * _scale;
-        SetOrigin(width / 2, height);
+        halfWidth = width / 2;
+        halfHeight = height / 2;
+        SetOrigin(width / 2, height / 2);
         SetCycle(1, 7, 10);
     }
 
@@ -31,17 +31,20 @@ public class Player1 : Box
     //----------------------------------------------------\\
     private void controls()
     {
-        WASDInput();
-        QEInput();
+        arrowsInput();
+        if (Input.GetKey(Key.R) && _abilityTimer == -1)
+        {
+            shoot();
+        }
     }
 
     //----------------------------------------------------\\
     //						WASDInput 					  \\
     //----------------------------------------------------\\
-    private void WASDInput()
+    private void arrowsInput()
     {
         //Jump
-        if (Input.GetKeyDown(Key.W) && canJump == true)
+        if (Input.GetKeyDown(Key.UP) && canJump == true)
         {
             velocity.y /= 2;
             velocity += new Vec2(0, -_jumpStrength);
@@ -49,35 +52,19 @@ public class Player1 : Box
         }
 
         //Move to the left
-        if (Input.GetKey(Key.A) && velocity.x > -_maxSpeed)
+        if (Input.GetKey(Key.LEFT) && velocity.x > -_maxSpeed)
         {
             velocity += new Vec2(-_speedIncrease, 0);
             Mirror(true, false);
+            _lastDirection = Key.LEFT;
         }
 
         //Move to the right
-        if (Input.GetKey(Key.D) && velocity.x < _maxSpeed)
+        if (Input.GetKey(Key.RIGHT) && velocity.x < _maxSpeed)
         {
             velocity += new Vec2(_speedIncrease, 0);
             Mirror(false, false);
-        }
-    }
-
-    //----------------------------------------------------\\
-    //						QEInput 					  \\
-    //----------------------------------------------------\\
-    private void QEInput()
-    {
-        if (Input.GetKey(Key.Q) && _abilityTimer == -1)
-        {
-            shrink();
-            _abilityTimer = _abilityCooldown;
-        }
-
-        if (Input.GetKey(Key.E) && _abilityTimer == -1)
-        {
-            grow();
-            _abilityTimer = _abilityCooldown;
+            _lastDirection = Key.RIGHT;
         }
     }
 
@@ -87,7 +74,7 @@ public class Player1 : Box
     private void deceleration()
     {
         //Decelerate when D and A are not pressed
-        if (!Input.GetKey(Key.D) && !Input.GetKey(Key.A))
+        if (!Input.GetKey(Key.RIGHT) && !Input.GetKey(Key.LEFT))
         {
             velocity.x *= 0.95f;
         }
@@ -99,26 +86,25 @@ public class Player1 : Box
     }
 
     //----------------------------------------------------\\
-    //						grow        				  \\
+    //						shoot        				  \\
     //----------------------------------------------------\\
-    private void grow()
+    private void shoot()
     {
-        if (_scale < 1.5f)
+        if (_abilityTimer == -1)
         {
-            _scale += 0.5f;
-            changeScale();
-        }
-    }
-
-    //----------------------------------------------------\\
-    //						shrink        				  \\
-    //----------------------------------------------------\\
-    private void shrink()
-    {
-        if (_scale > 0.5f)
-        {
-            _scale -= 0.5f;
-            changeScale();
+            switch (_lastDirection)
+            {
+                case Key.RIGHT:
+                default:
+                    LightBeam rightBeam = new LightBeam(this, 0);
+                    world.AddBody(rightBeam);
+                    break;
+                case Key.LEFT:
+                    LightBeam leftBeam = new LightBeam(this, 180);
+                    world.AddBody(leftBeam);
+                    break;
+            }
+            _abilityTimer = _abilityCooldown;
         }
     }
 
@@ -160,18 +146,6 @@ public class Player1 : Box
     }
 
     //----------------------------------------------------\\
-    //						changeScale         		  \\
-    //----------------------------------------------------\\
-    private void changeScale()
-    {
-        scaleX = _scale;
-        scaleY = _scale;
-
-        halfWidth = width / 2;
-        halfHeight = height / 2;
-    }
-
-    //----------------------------------------------------\\
     //						Step                 		  \\
     //----------------------------------------------------\\
     public override void Step()
@@ -183,9 +157,9 @@ public class Player1 : Box
         Animate();
 
         velocity += acceleration;
-        position += velocity * (1 / _scale);
+        position += velocity;
 
         x = position.x;
-        y = position.y + height / 2;
+        y = position.y;
     }
 }

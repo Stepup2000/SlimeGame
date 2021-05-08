@@ -23,7 +23,7 @@ namespace GXPEngine
 		public void OnLightBeam()
 		{
 			//insert collision stuff and destroy lightbeam
-			LightBeam lightBeam = new LightBeam(x, y, _reflectAngle);
+			LightBeam lightBeam = new LightBeam(this, _reflectAngle);
 			world.AddBody(lightBeam);
 		}
 	}

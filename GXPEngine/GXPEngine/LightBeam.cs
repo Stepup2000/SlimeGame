@@ -2,28 +2,22 @@
 
 class LightBeam : Box
 {
+	public Box plOwner { get; set; }
+
+	public bool hitSomething { get; set; }
+
 	//Private fields
 	private int _speed = 20;
-
-	/*public Vec2 position
-	{
-		get
-		{
-			return _position;
-		}
-	}
-
-	public Vec2 velocity;*/
-	private Vec2 _position;
 
 	//----------------------------------------------------\\
 	//						Constructor					  \\
 	//----------------------------------------------------\\
-	public LightBeam(float px, float py, int newDirection) : base("checkers.png", 1, 1)
+	public LightBeam(Box pOwner, int newDirection) : base("checkers.png", 1, 1)
 	{
-		SetOrigin(width / 2, height / 2);
-		_position.x = px;
-		_position.y = py;
+		plOwner = pOwner;
+		SetOrigin(plOwner.x, plOwner.y);
+		position.x = plOwner.x + ((newDirection - 90) / 90) * plOwner.halfWidth;
+		position.y = plOwner.y;
 		changeDirection(newDirection);
 	}
 
@@ -32,33 +26,32 @@ class LightBeam : Box
 	//----------------------------------------------------\\
 	private void changeDirection(int direction)
     {
-		velocity = Vec2.GetUnitVectorDeg(direction);
+		//velocity = Vec2.GetUnitVectorDeg(direction);
+
+		switch (direction)
+        {
+			case 0:
+				velocity = new Vec2(1, 0);
+				break;
+			case 180:
+				velocity = new Vec2(-1, 0);
+				break;
+        }
 	}
 
-	//----------------------------------------------------\\
-	//						applyVelocity				  \\
-	//----------------------------------------------------\\
-	private void applyVelocity()
-	{
-		//velocity.NormalizeThis();
-		_position += velocity * _speed;
-	}
+    public override void Step()
+    {
+		rotation = velocity.GetAngleDegrees();
 
-	//----------------------------------------------------\\
-	//						updateScreenPosition		  \\
-	//----------------------------------------------------\\
-	private void updateScreenPosition()
-	{
-		x = _position.x;
-		y = _position.y;
-	}
+		if (hitSomething == false)
+		{
+			scaleX += Mathf.Sign(velocity.x) * 0.06f;
+		}
 
-	//----------------------------------------------------\\
-	//						Update						  \\
-	//----------------------------------------------------\\
-	public void Update()
-	{
-		applyVelocity();
-		updateScreenPosition();
+		/*velocity += acceleration;
+		position += velocity;
+
+		x = position.x;
+		y = position.y;*/
 	}
 }

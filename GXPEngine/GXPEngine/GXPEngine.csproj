@@ -82,6 +82,7 @@
     <Compile Include="GXPEngine\SoLoud\Soloud.cs" />
     <Compile Include="GXPEngine\SoLoud\SoloudSoundSystem.cs" />
     <Compile Include="Player1.cs" />
+    <Compile Include="Player2.cs" />
     <Compile Include="Rock.cs" />
     <Compile Include="RotatingCrystal.cs" />
     <Compile Include="Smoke.cs" />

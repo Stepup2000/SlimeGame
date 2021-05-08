@@ -17,6 +17,10 @@ public class MyGame : Game
         world.AddBody(player);
         player.SetPosition(64, 100);
 
+        Player2 player2 = new Player2();
+        world.AddBody(player2);
+        player2.SetPosition(game.width - 64, 100);
+
         Tile tilea = new Tile(true, false);
         world.AddBody(tilea);
         tilea.SetPosition(256, game.height / 2 - 64);

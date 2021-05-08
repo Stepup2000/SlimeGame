@@ -84,10 +84,20 @@ namespace GXPEngine
 
             Vec2 separation = normal * distance /** 0.5f*/;
 
+            // ignore any possible collision between Player1 and Player2:
+            if (body1 is Player1 && body2 is Player2)
+            {
+                return;
+            }
+
             // restore jump on floor:
-            if (body1 is Player1 /*|| body1 is Player2*/ && floored)
+            if (body1 is Player1 && floored)
             {
                 (body1 as Player1).canJump = true;
+            }
+            if (body1 is Player2 && floored)
+            {
+                (body1 as Player2).canJump = true;
             }
 
             // trigger static crystal light beam on other light beam:
@@ -100,6 +110,14 @@ namespace GXPEngine
                     b.activated = true;
                     b.OnLightBeam();
                 }
+            }
+
+            // else, stop light beam from advancing on non-Player2 surfaces
+            // and return (skip actual resolve checks to emulate non-solid):
+            if (body1 is LightBeam && body2 is Player2 == false)
+            {
+                (body1 as LightBeam).hitSomething = true;
+                return;
             }
 
             // crush rocks: (TODO: check player scale)
