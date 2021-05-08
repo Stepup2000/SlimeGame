@@ -1,38 +1,30 @@
 ﻿using GXPEngine;
-using System;
 
-class StaticCrystal : AnimationSprite
+namespace GXPEngine
 {
-	//Private fields
-	int _reflectAngle;
-	private MyGame _myGame;
-
-	//----------------------------------------------------\\
-	//						Constructor					  \\
-	//----------------------------------------------------\\
-	public StaticCrystal(float newX, float newY, int newReflectAngle) : base("checkers.png", 1, 1)
+	public class StaticCrystal : Box
 	{
-		SetOrigin(width / 2, height / 2);
-		SetXY(newX, newY);
-		_reflectAngle = newReflectAngle;
-		_myGame = (MyGame)game;
-	}
+		//Private fields
+		private int _reflectAngle;
+		public bool activated { get; set; }
 
-	//----------------------------------------------------\\
-	//						collision					  \\
-	//----------------------------------------------------\\
-	private void collision()
-	{
-		//insert collision stuff and destroy lightbeam
-		LightBeam lightBeam = new LightBeam(x, y, _reflectAngle);
-		game.AddChild(lightBeam);
-	}
+		//----------------------------------------------------\\
+		//						Constructor					  \\
+		//----------------------------------------------------\\
+		public StaticCrystal(int newReflectAngle) : base("checkers.png", 32f, 32f)
+		{
+			SetOrigin(width / 2, height / 2);
+			_reflectAngle = newReflectAngle;
+		}
 
-	//----------------------------------------------------\\
-	//						Update						  \\
-	//----------------------------------------------------\\
-	public void Update()
-	{
-		collision();
+		//----------------------------------------------------\\
+		//						collision					  \\
+		//----------------------------------------------------\\
+		public void OnLightBeam()
+		{
+			//insert collision stuff and destroy lightbeam
+			LightBeam lightBeam = new LightBeam(x, y, _reflectAngle);
+			world.AddBody(lightBeam);
+		}
 	}
 }

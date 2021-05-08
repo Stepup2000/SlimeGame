@@ -23,7 +23,7 @@ public class Player1 : Box
 
     private float _scale = 1;
     private float _abilityTimer = -1;
-    private string _orientation = "Right";
+    private int _lastDirection;
 
 
     //----------------------------------------------------\\
@@ -64,7 +64,7 @@ public class Player1 : Box
         {
             velocity += new Vec2(-_speedIncrease, 0);
             Mirror(true, false);
-            _orientation = "Left";
+            _lastDirection = Key.A;
         }
 
         //Move to the right
@@ -72,7 +72,7 @@ public class Player1 : Box
         {
             velocity += new Vec2(_speedIncrease, 0);
             Mirror(false, false);
-            _orientation = "Right";
+            _lastDirection = Key.D;
         }
     }
 
@@ -147,16 +147,17 @@ public class Player1 : Box
     {
         if (_abilityTimer == -1)
         {
-            if (_orientation == "Right")
+            switch (_lastDirection)
             {
-                LightBeam lightBeam = new LightBeam(x, y, 0);
-                game.AddChild(lightBeam);
-            }
-
-            if (_orientation == "Left")
-            {
-                LightBeam lightBeam = new LightBeam(x, y, 180);
-                game.AddChild(lightBeam);
+                case Key.D:
+                default:
+                    LightBeam rightBeam = new LightBeam(x, y, 0);
+                    world.AddBody(rightBeam);
+                    break;
+                case Key.A:
+                    LightBeam leftBeam = new LightBeam(x, y, 180);
+                    world.AddBody(leftBeam);
+                    break;
             }
             _abilityTimer = _abilityCooldown;
         }

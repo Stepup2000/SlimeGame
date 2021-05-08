@@ -3,6 +3,13 @@ namespace GXPEngine
 {
     public class Body : AnimationSprite
     {
+        public World world
+        {
+            get
+            {
+                return World.main;
+            }
+        }
 
         public Vec2 position = new Vec2(0f, 0f);
         public Vec2 velocity;

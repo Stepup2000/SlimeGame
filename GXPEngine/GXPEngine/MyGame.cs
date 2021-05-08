@@ -12,7 +12,6 @@ public class MyGame : Game
     public MyGame() : base(1920, 1080, false)
     {
         world = new World();
-        AddChild(world);
 
         Player1 player = new Player1();
         world.AddBody(player);
@@ -20,7 +19,11 @@ public class MyGame : Game
 
         Tile tilea = new Tile(true, false);
         world.AddBody(tilea);
-        tilea.SetPosition(128, game.height / 2 - 64);
+        tilea.SetPosition(256, game.height / 2 - 64);
+
+        StaticCrystal sc = new StaticCrystal(90);
+        world.AddBody(sc);
+        sc.SetPosition(512, game.height / 2 - 64);
 
         for (int i = 0; i < game.width; i += 64)
         {

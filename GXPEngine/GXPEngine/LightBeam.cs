@@ -1,12 +1,11 @@
 ﻿using GXPEngine;
-using System;
 
 class LightBeam : Box
 {
 	//Private fields
 	private int _speed = 20;
 
-	public Vec2 position
+	/*public Vec2 position
 	{
 		get
 		{
@@ -14,7 +13,7 @@ class LightBeam : Box
 		}
 	}
 
-	public Vec2 velocity;
+	public Vec2 velocity;*/
 	private Vec2 _position;
 
 	//----------------------------------------------------\\
