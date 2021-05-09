@@ -21,11 +21,15 @@ public class MyGame : Game
         world.AddBody(player2);
         player2.SetPosition(game.width - 64, 100);
 
-        Tile tilea = new Tile(true, false);
+        Tile tilea = new Tile(false, false);
         world.AddBody(tilea);
-        tilea.SetPosition(256, game.height / 2 - 64);
+        tilea.SetPosition(game.width - 64, game.height / 2 - 64);
 
-        StaticCrystal sc = new StaticCrystal(90);
+        Tile tileb = new Tile(false, false);
+        world.AddBody(tileb);
+        tileb.SetPosition(640, game.height / 4 - 64);
+
+        StaticCrystal sc = new StaticCrystal(60);
         world.AddBody(sc);
         sc.SetPosition(512, game.height / 2 - 64);
 

@@ -50,10 +50,7 @@ namespace GXPEngine
         private void HandleIntegration() {
             foreach (Body body in bodies)
             {
-                //if (body.movable)
-                //{
-                    body.Step();
-                //}
+                body.Step();
             }
         }
 
@@ -84,10 +81,26 @@ namespace GXPEngine
 
             Vec2 separation = normal * distance /** 0.5f*/;
 
+            // ignore collisions with static light beam tiles:
+            if ((body1 is LightBeam && (body1 as LightBeam)._speed == 0) ||
+                (body2 is LightBeam && (body2 as LightBeam)._speed == 0))
+            {
+                return;
+            }
+
             // ignore any possible collision between Player1 and Player2:
             if (body1 is Player1 && body2 is Player2)
             {
                 return;
+            }
+
+            // ignore any collision between light beams and the object shooting them:
+            if (body2 is LightBeam)
+            {
+                if (body1 == (body2 as LightBeam).plOwner)
+                {
+                    return;
+                }
             }
 
             // restore jump on floor:
@@ -100,28 +113,17 @@ namespace GXPEngine
                 (body1 as Player2).canJump = true;
             }
 
-            // trigger static crystal light beam on other light beam:
-            if (body1 is LightBeam && body2 is StaticCrystal)
-            {
-                StaticCrystal b = body2 as StaticCrystal;
-                // comment out distance if visual BS
-                if (distance == b.halfWidth && b.activated == false)
-                {
-                    b.activated = true;
-                    b.OnLightBeam();
-                }
-            }
-
             // else, stop light beam from advancing on non-Player2 surfaces
             // and return (skip actual resolve checks to emulate non-solid):
-            if (body1 is LightBeam && body2 is Player2 == false)
+            if (body1 is Player2 == false && body2 is LightBeam)
             {
-                (body1 as LightBeam).hitSomething = true;
+                LightBeam b = body2 as LightBeam;
+                ResolveLightOverlap(b, body1, b.travelDist);
                 return;
             }
 
-            // crush rocks: (TODO: check player scale)
-            if (body1 is Player1 && body2 is Rock) 
+            // crush rocks:
+            if (body1 is Player1 && (body1 as Player1)._scale > 1 && body2 is Rock) 
             {
                 (body2 as Rock).Delete();
                 RemoveBody(body2);
@@ -160,6 +162,27 @@ namespace GXPEngine
             body1.position += separation;
             if (normal.x == 0) body1.velocity.y = 0;
             if (normal.y == 0) body1.velocity.x = 0;
+        }
+
+        public void ResolveLightOverlap(LightBeam body1, Body body2, float distance)
+        {
+            // tile with fake blocks
+            // TODO: destroy fake blocks eventually
+            for (int i = 0; i < distance + (int)body1.halfWidth * 2; i += (int)body1.halfWidth * 2)
+            {
+                LightBeam beamTile = new LightBeam(body1.plOwner, (int)body1.velocity.GetAngleDegrees());
+                beamTile.x = body1.plOwner.x + body1.velocity.x / body1._speed * i;
+                beamTile.y = body1.plOwner.y + body1.velocity.y / body1._speed * i;
+                AddBody(beamTile);
+            }
+            RemoveBody(body1);
+            body1.LateDestroy();
+
+            if (body2 is StaticCrystal)
+            {
+                StaticCrystal c = body2 as StaticCrystal;
+                c.OnLightBeam();
+            }
         }
     }
 }

@@ -6,12 +6,12 @@ namespace GXPEngine
 	{
 		//Private fields
 		private int _reflectAngle;
-		public bool activated { get; set; }
+		private bool _activated = false;
 
 		//----------------------------------------------------\\
 		//						Constructor					  \\
 		//----------------------------------------------------\\
-		public StaticCrystal(int newReflectAngle) : base("checkers.png", 32f, 32f)
+		public StaticCrystal(int newReflectAngle) : base("square.png", 32f, 32f)
 		{
 			SetOrigin(width / 2, height / 2);
 			_reflectAngle = newReflectAngle;
@@ -22,9 +22,12 @@ namespace GXPEngine
 		//----------------------------------------------------\\
 		public void OnLightBeam()
 		{
-			//insert collision stuff and destroy lightbeam
-			LightBeam lightBeam = new LightBeam(this, _reflectAngle);
-			world.AddBody(lightBeam);
+			if (_activated == false)
+            {
+				_activated = true;
+				LightBeam lightBeam = new LightBeam(this, _reflectAngle, 16);
+				world.AddBody(lightBeam);
+			}
 		}
 	}
 }

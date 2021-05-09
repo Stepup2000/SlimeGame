@@ -1,24 +1,29 @@
 ﻿using GXPEngine;
 
-class LightBeam : Box
+public class LightBeam : Box
 {
 	public Box plOwner { get; set; }
-
-	public bool hitSomething { get; set; }
+	public float travelDist { get; private set; }
+	public int _speed { get; private set; }
 
 	//Private fields
-	private int _speed = 20;
+	private Vec2 _spawnPos;
+	private const float _deviation = 0.001f;
 
 	//----------------------------------------------------\\
 	//						Constructor					  \\
 	//----------------------------------------------------\\
-	public LightBeam(Box pOwner, int newDirection) : base("checkers.png", 1, 1)
+	public LightBeam(Box pOwner, int newDirection, int pSpeed = 0) : base("circle.png", 32f, 16f)
 	{
+		_speed = pSpeed;
 		plOwner = pOwner;
-		SetOrigin(plOwner.x, plOwner.y);
-		position.x = plOwner.x + ((newDirection - 90) / 90) * plOwner.halfWidth;
+		SetOrigin(width / 2, height / 2);
+		//position.x = plOwner.x + ((newDirection - 90) / 90) * plOwner.halfWidth;
+		position.x = plOwner.x;
 		position.y = plOwner.y;
+		if (_speed != 0) _spawnPos = new Vec2(position.x, position.y);
 		changeDirection(newDirection);
+
 	}
 
 	//----------------------------------------------------\\
@@ -26,32 +31,22 @@ class LightBeam : Box
 	//----------------------------------------------------\\
 	private void changeDirection(int direction)
     {
-		//velocity = Vec2.GetUnitVectorDeg(direction);
-
-		switch (direction)
-        {
-			case 0:
-				velocity = new Vec2(1, 0);
-				break;
-			case 180:
-				velocity = new Vec2(-1, 0);
-				break;
-        }
+		velocity = Vec2.GetUnitVectorDeg(-direction) * _speed;
+		if (Mathf.Abs(velocity.x) < _deviation) velocity.x = 0;
+		if (Mathf.Abs(velocity.y) < _deviation) velocity.y = 0;
 	}
 
     public override void Step()
     {
-		rotation = velocity.GetAngleDegrees();
+		if (_speed != 0)
+        {
+			position += velocity;
 
-		if (hitSomething == false)
-		{
-			scaleX += Mathf.Sign(velocity.x) * 0.06f;
+			x = position.x;
+			y = position.y;
+
+			travelDist = (position - _spawnPos).Length();
 		}
 
-		/*velocity += acceleration;
-		position += velocity;
-
-		x = position.x;
-		y = position.y;*/
 	}
 }

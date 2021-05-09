@@ -6,6 +6,8 @@ public class Player2 : Box
 
     public bool canJump { get; set; }
 
+    public bool isBeamActivated { get; set; }
+
     //private fields:
     private readonly float _maxSpeed = 3;
     private readonly float _speedIncrease = 0.05f;
@@ -92,15 +94,16 @@ public class Player2 : Box
     {
         if (_abilityTimer == -1)
         {
+            isBeamActivated = true;
             switch (_lastDirection)
             {
                 case Key.RIGHT:
                 default:
-                    LightBeam rightBeam = new LightBeam(this, 0);
+                    LightBeam rightBeam = new LightBeam(this, 0, 16);
                     world.AddBody(rightBeam);
                     break;
                 case Key.LEFT:
-                    LightBeam leftBeam = new LightBeam(this, 180);
+                    LightBeam leftBeam = new LightBeam(this, 180, 16);
                     world.AddBody(leftBeam);
                     break;
             }

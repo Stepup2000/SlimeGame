@@ -12,7 +12,7 @@ public class Player1 : Box
     private readonly float _jumpStrength = 4;
     private readonly float _abilityCooldown = 30;
 
-    private float _scale = 1;
+    public float _scale { get; private set; }
     private float _abilityTimer = -1;
 
     //----------------------------------------------------\\
@@ -20,6 +20,7 @@ public class Player1 : Box
     //----------------------------------------------------\\
     public Player1() : base("colors.png", 32f, 32f, true, false)
     {
+        _scale = 1;
         halfWidth = width / 2 * _scale;
         halfHeight = height / 2 * _scale;
         SetOrigin(width / 2, height);
