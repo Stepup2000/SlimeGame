@@ -64,7 +64,7 @@
                 if (this.position.y <= other.position.y)
                 {
                     // true = isFloored (for velocity reset)
-                    return new CollisionInfo(new Vec2(-other.halfWidth, 0).UnitNormal(), overlap_v, true);
+                    return new CollisionInfo(new Vec2(-other.halfWidth, 0).UnitNormal(), overlap_v, acceleration.y > 0 ? true : false);
                 }
                 else
                 {

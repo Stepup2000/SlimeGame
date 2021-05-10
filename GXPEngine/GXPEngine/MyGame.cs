@@ -28,10 +28,23 @@ public class MyGame : Game
         world.AddBody(gate);
         gate.SetPosition(200, 200);
 
+        // "Corresponding" sapling
+        Sapling sap = new Sapling(0);
+        world.AddBody(sap);
+        sap.SetPosition(800, 640);
+
         // Top rock
         Rock rock = new Rock(64);
         world.AddBody(rock);
         rock.SetPosition(1856, 384);
+
+        Rock rock2 = new Rock(64);
+        world.AddBody(rock2);
+        rock2.SetPosition(960, 704);
+
+        Rock rock3 = new Rock(64);
+        world.AddBody(rock3);
+        rock3.SetPosition(960, 1024);
 
         // Crystals
         StaticCrystal sc = new StaticCrystal(190);
@@ -83,12 +96,12 @@ public class MyGame : Game
             tile.SetPosition(512, (i * 64) + 928);
         }
 
-        //Ground floor floating wall2 (horizontal)
+        //Ground floor floating wall2 (vertical)
         for (int i = 0; i < 2; i++)
         {
             Tile tile = new Tile(64);
             world.AddBody(tile);
-            tile.SetPosition(1024, (i * 64) + 832);
+            tile.SetPosition(1152, (i * 64) + 832);
         }
 
         //First floor floating wall (vertical)

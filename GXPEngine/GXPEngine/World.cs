@@ -143,16 +143,16 @@ namespace GXPEngine
                 {
                     if (button._buttonType == (int)Button.bType.SEED)
                     {
-                        if (body2 is Seed /*&& (body2 as Seed)._activateID == button._activateID*/)
+                        if (body2 is Seed)
                         {
                             button.isActivated = true;
-                            foreach (Body b in bodies)
+                            for (int i = bodies.Count; i > 0; i--)
                             {
-                                if (b is Gate && (b as Gate)._activateID == button._activateID)
+                                if (bodies[i - 1] is Gate && (bodies[i - 1] as Gate)._activateID == button._activateID)
                                 {
                                     // play sound here I guess
-                                    RemoveBody(b);
-                                    b.LateDestroy();
+                                    RemoveBody(bodies[i - 1]);
+                                    bodies[i - 1].LateDestroy();
                                 }
                             }
                         }
@@ -162,13 +162,13 @@ namespace GXPEngine
                         if (body2 is Player1)
                         {
                             button.isActivated = true;
-                            foreach (Body b in bodies)
+                            for (int i = bodies.Count; i > 0; i--)
                             {
-                                if (b is Gate && (b as Gate)._activateID == button._activateID)
+                                if (bodies[i - 1] is Gate && (bodies[i - 1] as Gate)._activateID == button._activateID)
                                 {
                                     // play sound here I guess
-                                    RemoveBody(b);
-                                    b.LateDestroy();
+                                    RemoveBody(bodies[i - 1]);
+                                    bodies[i - 1].LateDestroy();
                                 }
                             }
                         }
@@ -253,19 +253,19 @@ namespace GXPEngine
             {
                 Sapling s = body2 as Sapling;
                 s.isActivated = true;
-                foreach (Body b in bodies)
+                for (int i = bodies.Count; i > 0; i--)
                 {
-                    if (b is Gate && (b as Gate)._activateID == s._activateID)
+                    if (bodies[i - 1] is Gate && (bodies[i - 1] as Gate)._activateID == s._activateID)
                     {
                         // play sound here I guess
-                        RemoveBody(b);
-                        b.LateDestroy();
+                        RemoveBody(bodies[i - 1]);
+                        bodies[i - 1].LateDestroy();
                     }
-                    /*if (b is Tile && (b as Tile)._activateID == s._activateID)
+                    /*if (bodies[i - 1] is Tile && (bodies[i - 1] as Tile)._activateID == s._activateID)
                     {
                         // play sound here I guess
-                        RemoveBody(b);
-                        b.LateDestroy();
+                        RemoveBody(bodies[i - 1]);
+                        bodies[i - 1].LateDestroy();
                     }*/
                 }
             }
