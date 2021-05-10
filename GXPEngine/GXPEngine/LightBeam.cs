@@ -13,7 +13,7 @@ public class LightBeam : Box
 	//----------------------------------------------------\\
 	//						Constructor					  \\
 	//----------------------------------------------------\\
-	public LightBeam(Box pOwner, int newDirection, int pSpeed = 0) : base("circle.png", 32f, 16f)
+	public LightBeam(Box pOwner, int newDirection, int pSpeed = 0) : base("circle.png", 8f, 8f)
 	{
 		_speed = pSpeed;
 		plOwner = pOwner;

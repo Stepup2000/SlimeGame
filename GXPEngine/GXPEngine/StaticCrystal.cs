@@ -4,12 +4,12 @@
 	{
 		//Private fields
 		public int _reflectAngle { get; set; }
-		private bool _activated = false;
+		public bool _activated { get; set; }
 
 		//----------------------------------------------------\\
 		//						Constructor					  \\
 		//----------------------------------------------------\\
-		public StaticCrystal(int newReflectAngle, float newScale = 1, bool isMovable = false) : base("square.png", 32f, 32f, isMovable)
+		public StaticCrystal(int newReflectAngle, float newScale = 1) : base("square.png", 32f, 32f)
 		{
 			if (newScale != 1)
             {

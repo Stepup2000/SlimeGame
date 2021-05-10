@@ -9,7 +9,7 @@ class Rock : Box
 	//----------------------------------------------------\\
 	//						Constructor					  \\
 	//----------------------------------------------------\\
-	public Rock() : base("colors.png", 32, 32, false, false)
+	public Rock() : base("colors.png", 32, 64, false, false)
 	{
 		SetOrigin(width/2, height/2);
 		

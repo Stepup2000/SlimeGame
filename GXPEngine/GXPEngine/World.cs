@@ -10,7 +10,7 @@ namespace GXPEngine
         private List<Body> bodies = new List<Body>();
         private List<Body> waitList = new List<Body>();
         private float _beamTimer = 0;
-        private const float TIME_BEFORE_REMOVEBEAM = 300;
+        private const float TIME_BEFORE_REMOVEBEAM = 30;
 
         public World() : base(800, 600)
         {
@@ -85,7 +85,7 @@ namespace GXPEngine
                     if ((bodies[i] is Player1 || bodies[i] is Player2) && bodies[j] is StaticCrystal)
                     {
                         float distance = (bodies[i].position - bodies[j].position).Length();
-                        if (distance < 192f)
+                        if (distance < 96f)
                         {
                             if (Input.GetKeyDown(Key.SPACE))
                             {
@@ -196,6 +196,9 @@ namespace GXPEngine
             // crush rocks:
             if (body1 is Player1 && (body1 as Player1)._scale > 1 && body2 is Rock) 
             {
+                StaticCrystal crystal = new StaticCrystal(90, 1);
+                crystal.SetPosition(body2.position.x, body2.position.y);
+                AddBody(crystal);
                 (body2 as Rock).Delete();
                 RemoveBody(body2);
             }
@@ -272,6 +275,13 @@ namespace GXPEngine
                     if (bodies[i-1] is LightBeam && (bodies[i-1] as LightBeam)._speed == 0)
                     {
                         RemoveBody(bodies[i-1]);
+                    }
+                }
+                foreach (Body b in bodies)
+                {
+                    if (b is StaticCrystal)
+                    {
+                        if ((b as StaticCrystal)._activated == true) (b as StaticCrystal)._activated = false;
                     }
                 }
             }

@@ -46,7 +46,7 @@ public class Player2 : Box
     private void arrowsInput()
     {
         //Jump
-        if (Input.GetKeyDown(Key.UP) && canJump == true)
+        if (Input.GetKeyDown(Key.UP) /*&& canJump == true*/)
         {
             velocity.y /= 2;
             velocity += new Vec2(0, -_jumpStrength);
@@ -92,7 +92,7 @@ public class Player2 : Box
     //----------------------------------------------------\\
     private void shoot()
     {
-        if (canJump && _abilityTimer == -1)
+        if (/*canJump &&*/ _abilityTimer == -1)
         {
             isBeamActivated = true;
             switch (_lastDirection)

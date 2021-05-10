@@ -2,14 +2,16 @@ using System;
 using System.Drawing;
 using GXPEngine;
 
-// Code architecture basis (Body->Circle->Player with
-// circle/circle overlaps) by Bram den Hond
-
 public class MyGame : Game
 {
     World world;
 
     public MyGame() : base(1920, 1080, false)
+    {
+        loadLevel();
+    }
+
+    private void loadLevel()
     {
         world = new World();
 
@@ -19,11 +21,53 @@ public class MyGame : Game
 
         Player2 player2 = new Player2();
         world.AddBody(player2);
-        player2.SetPosition(game.width - 64, 100);
+        player2.SetPosition(900, 200);
 
-        StaticCrystal sc = new StaticCrystal(60);
+        // (Test) rock
+        Rock rock = new Rock();
+        world.AddBody(rock);
+        rock.SetPosition(1856, 384);
+
+        // Crystals
+        StaticCrystal sc = new StaticCrystal(190);
+        sc.rotation = 180;
         world.AddBody(sc);
-        sc.SetPosition(512, game.height / 2 - 64);
+        sc.SetPosition(768, 512);
+
+        StaticCrystal sc2 = new StaticCrystal(320);
+        sc2.rotation = 90;
+        world.AddBody(sc2);
+        sc2.SetPosition(512, 576);
+
+        StaticCrystal scleft = new StaticCrystal(80);
+        scleft.rotation = 90;
+        world.AddBody(scleft);
+        scleft.SetPosition(64, 256);
+
+        StaticCrystal scup1 = new StaticCrystal(348);
+        scup1.rotation = 180;
+        world.AddBody(scup1);
+        scup1.SetPosition(768, 64);
+
+        StaticCrystal scup2 = new StaticCrystal(260);
+        scup2.rotation = 180;
+        world.AddBody(scup2);
+        scup2.SetPosition(1088, 64);
+
+        /*StaticCrystal scup3 = new StaticCrystal(290);
+        scup3.rotation = 180;
+        world.AddBody(scup3);
+        scup3.SetPosition(1152, 64);*/
+
+        StaticCrystal scr1 = new StaticCrystal(320);
+        scr1.rotation = 90;
+        world.AddBody(scr1);
+        scr1.SetPosition(1600, 288);
+
+        StaticCrystal scr2 = new StaticCrystal(185);
+        scr2.rotation = 180;
+        world.AddBody(scr2);
+        scr2.SetPosition(1856, 256);
 
         //Walls
         //Ground floor floating wall1 (vertical)
@@ -90,6 +134,14 @@ public class MyGame : Game
             tile.SetPosition(1536, (i * 64) + 288);
         }
 
+        //Second floor ending platform (horizontal)
+        for (int i = 0; i < 5; i++)
+        {
+            Tile tile = new Tile();
+            world.AddBody(tile);
+            tile.SetPosition((i* 64) + 1600, 192);
+        }
+
         //Ground floor platform
         for (int i = 0; i < 4; i++)
         {
@@ -118,7 +170,7 @@ public class MyGame : Game
 
         //Boundary
         //Ceiling
-        for (int i = 0; i < 31; i ++)
+        for (int i = 0; i < 31; i++)
         {
             Tile tile = new Tile();
             world.AddBody(tile);
