@@ -2,7 +2,8 @@
 {
     public class Sapling : Box
     {
-        private int _activateID;
+        public bool isActivated { get; set; }
+        public int _activateID { get; set; }
 
         public Sapling(int id) : base("barry.png", 32f, 32f, false, false)
         {

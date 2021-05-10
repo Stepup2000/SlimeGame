@@ -2,9 +2,9 @@
 {
     public class Gate : Box
     {
-        private int _activateID;
+        public int _activateID { get; set; }
 
-        // define custom halfWidth and halfHeight as there are different sized gaps
+        // define custom filename, halfWidth, halfHeight as there are different sized gaps
         public Gate(string filename, float pHalfWidth, float pHalfHeight, int id)
             : base(filename, pHalfWidth, pHalfHeight, false, false)
         {

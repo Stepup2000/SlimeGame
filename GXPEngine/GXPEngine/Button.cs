@@ -2,11 +2,20 @@
 {
     public class Button : Box
     {
-        private int _activateID;
+        public bool isActivated { get; set; }
+        public int _buttonType { get; }
+        public int _activateID { get; set; }
 
-        public Button(int id) : base("triangle.png", 32f, 32f, false, true)
+        public enum bType : int
+        {
+            SEED,
+            SLIME
+        }
+
+        public Button(int id, int type) : base("triangle.png", 32f, 32f, false, true)
         {
             _activateID = id;
+            _buttonType = type;
         }
     }
 }

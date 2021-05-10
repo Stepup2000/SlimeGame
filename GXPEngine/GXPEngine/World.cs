@@ -9,7 +9,6 @@ namespace GXPEngine
 
         private List<Body> bodies = new List<Body>();
         private List<Body> waitList = new List<Body>();
-        private List<Body> removeList = new List<Body>();
         private float _beamTimer = 0;
         private const float TIME_BEFORE_REMOVEBEAM = 300;
 
@@ -30,7 +29,6 @@ namespace GXPEngine
 
         public void RemoveBody(Body body)
         {
-            //removeList.Add(body);
             RemoveChild(body);
             bodies.Remove(body);
         }
@@ -44,20 +42,6 @@ namespace GXPEngine
             waitList.Clear();
         }
 
-        private void removeOldBodies()
-        {
-            foreach (Body b in bodies)
-            {
-                if (removeList.Contains(b))
-                {
-                    RemoveChild(b);
-                    bodies.Remove(b);
-                    b.Destroy();
-                }
-                removeList.Clear();
-            }
-        }
-
         public void Step()
         {
             handleBeamTiles();
@@ -65,7 +49,6 @@ namespace GXPEngine
             handleIntegration();
             handleOverlaps();
             getPlayerDistToCrystal();
-            //removeOldBodies();
         }
 
         private void handleIntegration() {
@@ -86,7 +69,7 @@ namespace GXPEngine
                     {
                         if (info.overlap < 32f)
                         {
-                            ResolveOverlap(bodies[i], bodies[j], info.normal, info.overlap, info.isFloored);
+                            resolveOverlap(bodies[i], bodies[j], info.normal, info.overlap, info.isFloored);
                         }
                     }
                 }
@@ -99,13 +82,14 @@ namespace GXPEngine
             {
                 for (int j = i + 1; j < bodies.Count; j++)
                 {
-                    if (bodies[i] is Player1 || bodies[i] is Player2 && bodies[j] is StaticCrystal)
+                    if ((bodies[i] is Player1 || bodies[i] is Player2) && bodies[j] is StaticCrystal)
                     {
                         float distance = (bodies[i].position - bodies[j].position).Length();
-                        if (distance < 64f)
+                        if (distance < 192f)
                         {
                             if (Input.GetKeyDown(Key.SPACE))
                             {
+                                (bodies[j] as StaticCrystal).rotation += 30;
                                 (bodies[j] as StaticCrystal)._reflectAngle += 30;
                             }
                         }
@@ -114,13 +98,8 @@ namespace GXPEngine
             }
         }
 
-        private void ResolveOverlap(Body body1, Body body2, Vec2 normal, float distance, bool floored)
+        private void resolveOverlap(Body body1, Body body2, Vec2 normal, float distance, bool floored)
         {
-            // works BETTER if all bodies are Boxes.
-
-            // currently BUG: on clippable in edge cases body1 will remain in body2
-            // and therefore clip downward and through the floor.
-
             Vec2 separation = normal * distance /** 0.5f*/;
 
             // ignore collisions between one and another floor tile/button/etc.:
@@ -152,6 +131,58 @@ namespace GXPEngine
                 }
             }
 
+            // stop light beam from advancing on non-Player2 surfaces
+            // and return (skip actual resolve checks to emulate non-solid):
+            if (body1 is Player2 == false && body2 is LightBeam)
+            {
+                LightBeam b = body2 as LightBeam;
+                resolveLightOverlap(b, body1, b.travelDist);
+                return;
+            }
+
+            // BUTTON collision:
+            // on collision (after clipping) between seed/slime and ground
+            // button, destroy gate that button is linked to:
+            if (body1 is Button)
+            {
+                Button button = body1 as Button;
+                if (button.isActivated == false) 
+                {
+                    if (button._buttonType == (int)Button.bType.SEED)
+                    {
+                        if (body2 is Seed /*&& (body2 as Seed)._activateID == button._activateID*/)
+                        {
+                            button.isActivated = true;
+                            foreach (Body b in bodies)
+                            {
+                                if (b is Gate && (b as Gate)._activateID == button._activateID)
+                                {
+                                    // play sound here I guess
+                                    RemoveBody(b);
+                                    b.LateDestroy();
+                                }
+                            }
+                        }
+                    }
+                    if (button._buttonType == (int)Button.bType.SLIME)
+                    {
+                        if (body2 is Player1)
+                        {
+                            button.isActivated = true;
+                            foreach (Body b in bodies)
+                            {
+                                if (b is Gate && (b as Gate)._activateID == button._activateID)
+                                {
+                                    // play sound here I guess
+                                    RemoveBody(b);
+                                    b.LateDestroy();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             // restore jump on floor:
             if (body1 is Player1 && floored)
             {
@@ -160,15 +191,6 @@ namespace GXPEngine
             if (body1 is Player2 && floored)
             {
                 (body1 as Player2).canJump = true;
-            }
-
-            // else, stop light beam from advancing on non-Player2 surfaces
-            // and return (skip actual resolve checks to emulate non-solid):
-            if (body1 is Player2 == false && body2 is LightBeam)
-            {
-                LightBeam b = body2 as LightBeam;
-                ResolveLightOverlap(b, body1, b.travelDist);
-                return;
             }
 
             // crush rocks:
@@ -200,7 +222,7 @@ namespace GXPEngine
                 return;
             }
 
-            // clip on top of clippable:
+            // clip on top of clippable only from movement from the side:
             else if (body2 is Box && (body2 as Box).clippable && normal.y == 0)
             {
                 body1.position.y = body2.position.y - (body2 as Box).halfHeight - (body1 as Box).halfHeight;
@@ -213,7 +235,7 @@ namespace GXPEngine
             if (normal.y == 0) body1.velocity.x = 0;
         }
 
-        private void ResolveLightOverlap(LightBeam body1, Body body2, float distance)
+        private void resolveLightOverlap(LightBeam body1, Body body2, float distance)
         {
             for (int i = 0; i < distance + (int)body1.halfWidth * 2; i += (int)body1.halfWidth * 2)
             {
@@ -229,14 +251,19 @@ namespace GXPEngine
             {
                 StaticCrystal c = body2 as StaticCrystal;
                 c.OnLightBeam();
-                _beamTimer = TIME_BEFORE_REMOVEBEAM;
             }
+
+            if (body2 is Sapling)
+            {
+                Sapling s = body2 as Sapling;
+                s.OnLightBeam();
+            }
+            _beamTimer = TIME_BEFORE_REMOVEBEAM;
         }
 
         private void handleBeamTiles()
         {
             _beamTimer--;
-            Console.WriteLine(_beamTimer);
             if (_beamTimer < 0)
             {
                 _beamTimer = 0;
