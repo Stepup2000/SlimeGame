@@ -255,8 +255,8 @@ namespace GXPEngine
 
             if (body2 is Sapling)
             {
-                Sapling s = body2 as Sapling;
-                s.OnLightBeam();
+                //Sapling s = body2 as Sapling;
+                //s.OnLightBeam();
             }
             _beamTimer = TIME_BEFORE_REMOVEBEAM;
         }
