@@ -33,12 +33,82 @@ public class MyGame : Game
         world.AddBody(sc);
         sc.SetPosition(512, game.height / 2 - 64);
 
-        for (int i = 0; i < game.width; i += 64)
+        //Walls
+
+        //Ground floor floating wall1
+        for (int i = 0; i < 1; i++)
         {
             Tile tile = new Tile();
             world.AddBody(tile);
-            tile.SetPosition(i, game.height / 2);
+            tile.SetPosition(512, (i * 64) + 960);
         }
+
+        //Ground floor floating wall2
+        for (int i = 0; i < 2; i++)
+        {
+            Tile tile = new Tile();
+            world.AddBody(tile);
+            tile.SetPosition(1024, (i * 64) + 832);
+        }
+
+        //Ground floor platform
+        for (int i = 0; i < 4; i++)
+        {
+            Tile tile = new Tile();
+            world.AddBody(tile);
+            tile.SetPosition((i * 64) + 1792, 896);
+        }
+
+        //Floors
+        //First floor
+        for (int i = 0; i < 25; i++)
+        {
+            Tile tile = new Tile();
+            world.AddBody(tile);
+            tile.SetPosition(i * 64, 768);
+        }
+
+        //Second floor
+        for (int i = 0; i < 25; i++)
+        {
+            Tile tile = new Tile();
+            world.AddBody(tile);
+            tile.SetPosition((i * 64) + 384, 448);
+        }
+
+        //Boundary
+        //Ceiling
+        for (int i = 0; i < 31; i ++)
+        {
+            Tile tile = new Tile();
+            world.AddBody(tile);
+            tile.SetPosition(i * 64, 0);
+        }
+
+        //Floor
+        for (int i = 0; i < 31; i++)
+        {
+            Tile tile = new Tile();
+            world.AddBody(tile);
+            tile.SetPosition(i * 64, game.height);
+        }
+
+        //Left
+        for (int i = 0; i < 17; i++)
+        {
+            Tile tile = new Tile();
+            world.AddBody(tile);
+            tile.SetPosition(0, i * 64);
+        }
+
+        //Right
+        for (int i = 0; i < 17; i++)
+        {
+            Tile tile = new Tile();
+            world.AddBody(tile);
+            tile.SetPosition(game.width, i * 64);
+        }
+
     }
 
     void Update()
