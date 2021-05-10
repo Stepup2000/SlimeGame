@@ -5,8 +5,8 @@
         public int _activateID { get; set; }
 
         // define custom filename, halfWidth, halfHeight as there are different sized gaps
-        public Gate(string filename, float pHalfWidth, float pHalfHeight, int id)
-            : base(filename, pHalfWidth, pHalfHeight, false, false)
+        public Gate(string filename, float pHalfWidth, float pHalfHeight, int id, int spriteSize)
+            : base(filename, pHalfWidth, pHalfHeight, spriteSize, false, false)
         {
             _activateID = id;
         }

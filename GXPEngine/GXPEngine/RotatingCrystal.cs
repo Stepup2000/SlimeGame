@@ -9,7 +9,7 @@ class RotatingCrystal : Box
 	//----------------------------------------------------\\
 	//						Constructor					  \\
 	//----------------------------------------------------\\
-	public RotatingCrystal(float newX, float newY) : base("square.png", 32, 32, true)
+	public RotatingCrystal(float newX, float newY, int spriteSize) : base("square.png", 32, 32, spriteSize, true)
 	{
 		SetOrigin(width / 2, height / 2);
 		SetXY(newX, newY);

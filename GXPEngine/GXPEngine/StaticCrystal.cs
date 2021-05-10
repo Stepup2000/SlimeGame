@@ -9,7 +9,7 @@
 		//----------------------------------------------------\\
 		//						Constructor					  \\
 		//----------------------------------------------------\\
-		public StaticCrystal(int newReflectAngle, float newScale = 1) : base("square.png", 32f, 32f)
+		public StaticCrystal(int newReflectAngle, int spriteSize, float newScale = 1) : base("square.png", 32f, 32f, spriteSize)
 		{
 			if (newScale != 1)
             {

@@ -20,7 +20,7 @@ public class Player2 : Box
     //----------------------------------------------------\\
     //						Constructor					  \\
     //----------------------------------------------------\\
-    public Player2() : base("colors.png", 32f, 32f, true, false)
+    public Player2(int spriteSize) : base("colors.png", 32f, 32f, spriteSize, true, false)
     {
         halfWidth = width / 2;
         halfHeight = height / 2;

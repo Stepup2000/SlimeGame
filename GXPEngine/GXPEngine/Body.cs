@@ -16,10 +16,10 @@ namespace GXPEngine
         public Vec2 acceleration;
         public bool movable;
 
-        public Body(string filename, bool pMovable = false) : base(filename, 1, 1)
+        public Body(string filename, bool pMovable = false, int spriteSize = 64) : base(filename, 1, 1)
         {
             movable = pMovable;
-            initializeAnimFrames(width / 64, height / 64);
+            initializeAnimFrames(width / spriteSize, height / spriteSize);
 
             if (movable)
             {

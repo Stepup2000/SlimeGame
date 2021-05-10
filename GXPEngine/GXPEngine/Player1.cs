@@ -18,7 +18,7 @@ public class Player1 : Box
     //----------------------------------------------------\\
     //						Constructor					  \\
     //----------------------------------------------------\\
-    public Player1() : base("RockySlimeSpritesheet_64x64.png", 32f, 32f, true, false)
+    public Player1(int spriteSize) : base("RockySlimeSpritesheet_64x64.png", 32f, 32f, spriteSize, true, false)
     {
         _scale = 1;
         halfWidth = width / 2 * _scale;

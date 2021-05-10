@@ -10,7 +10,7 @@ namespace GXPEngine
         private List<Body> bodies = new List<Body>();
         private List<Body> waitList = new List<Body>();
         private float _beamTimer = 0;
-        private const float TIME_BEFORE_REMOVEBEAM = 30;
+        private const float TIME_BEFORE_REMOVEBEAM = 120;
 
         public World() : base(800, 600)
         {
@@ -242,7 +242,7 @@ namespace GXPEngine
         {
             for (int i = 0; i < distance + (int)body1.halfWidth * 2; i += (int)body1.halfWidth * 2)
             {
-                LightBeam beamTile = new LightBeam(body1.plOwner, (int)body1.velocity.GetAngleDegrees());
+                LightBeam beamTile = new LightBeam(body1.plOwner, (int)body1.velocity.GetAngleDegrees(), 64);
                 beamTile.x = body1.plOwner.x + body1.velocity.x / body1._speed * i;
                 beamTile.y = body1.plOwner.y + body1.velocity.y / body1._speed * i;
                 AddBody(beamTile);

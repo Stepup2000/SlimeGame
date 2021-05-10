@@ -5,8 +5,8 @@
         public float halfWidth;
         public float halfHeight;
         public bool clippable;
-        public Box(string filename, float pHalfWidth, float pHalfHeight, 
-            bool pMovable = false, bool pClippable = false) : base(filename, pMovable)
+        public Box(string filename, float pHalfWidth, float pHalfHeight, int spriteSize,
+            bool pMovable = false, bool pClippable = false) : base(filename, pMovable, spriteSize)
         {
             halfWidth = pHalfWidth;
             halfHeight = pHalfHeight;

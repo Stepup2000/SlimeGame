@@ -12,7 +12,7 @@
             SLIME
         }
 
-        public Button(int id, int type) : base("triangle.png", 32f, 32f, false, true)
+        public Button(int id, int type, int spriteSize) : base("triangle.png", 32f, 32f, spriteSize, false, true)
         {
             _activateID = id;
             _buttonType = type;
