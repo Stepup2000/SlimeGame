@@ -1,24 +1,22 @@
-﻿using GXPEngine;
-
-namespace GXPEngine
+﻿namespace GXPEngine
 {
 	public class StaticCrystal : Box
 	{
 		//Private fields
-		private int _reflectAngle;
+		public int _reflectAngle { get; set; }
 		private bool _activated = false;
 
 		//----------------------------------------------------\\
 		//						Constructor					  \\
 		//----------------------------------------------------\\
-		public StaticCrystal(int newReflectAngle) : base("square.png", 32f, 32f)
+		public StaticCrystal(int newReflectAngle, bool isMovable = false) : base("square.png", 32f, 32f, isMovable)
 		{
 			SetOrigin(width / 2, height / 2);
 			_reflectAngle = newReflectAngle;
 		}
 
 		//----------------------------------------------------\\
-		//						collision					  \\
+		//						OnLightBeam					  \\
 		//----------------------------------------------------\\
 		public void OnLightBeam()
 		{

@@ -1,7 +1,7 @@
 ﻿using GXPEngine;
 using System;
 
-class RotatingCrystal : AnimationSprite
+class RotatingCrystal : Box
 {
 	//Private fields
 	private MyGame _myGame;
@@ -9,7 +9,7 @@ class RotatingCrystal : AnimationSprite
 	//----------------------------------------------------\\
 	//						Constructor					  \\
 	//----------------------------------------------------\\
-	public RotatingCrystal(float newX, float newY) : base("checkers.png", 1, 1)
+	public RotatingCrystal(float newX, float newY) : base("square.png", 32, 32, true)
 	{
 		SetOrigin(width / 2, height / 2);
 		SetXY(newX, newY);

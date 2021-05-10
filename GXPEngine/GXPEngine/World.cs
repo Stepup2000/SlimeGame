@@ -9,6 +9,9 @@ namespace GXPEngine
 
         private List<Body> bodies = new List<Body>();
         private List<Body> waitList = new List<Body>();
+        private List<Body> removeList = new List<Body>();
+        private float _beamTimer = 0;
+        private const float TIME_BEFORE_REMOVEBEAM = 300;
 
         public World() : base(800, 600)
         {
@@ -27,6 +30,7 @@ namespace GXPEngine
 
         public void RemoveBody(Body body)
         {
+            //removeList.Add(body);
             RemoveChild(body);
             bodies.Remove(body);
         }
@@ -40,21 +44,38 @@ namespace GXPEngine
             waitList.Clear();
         }
 
-        public void Step()
+        private void removeOldBodies()
         {
-            addNewBodies();
-            HandleIntegration();
-            HandleOverlaps();
+            foreach (Body b in bodies)
+            {
+                if (removeList.Contains(b))
+                {
+                    RemoveChild(b);
+                    bodies.Remove(b);
+                    b.Destroy();
+                }
+                removeList.Clear();
+            }
         }
 
-        private void HandleIntegration() {
+        public void Step()
+        {
+            handleBeamTiles();
+            addNewBodies();
+            handleIntegration();
+            handleOverlaps();
+            getPlayerDistToCrystal();
+            //removeOldBodies();
+        }
+
+        private void handleIntegration() {
             foreach (Body body in bodies)
             {
                 body.Step();
             }
         }
 
-        private void HandleOverlaps()
+        private void handleOverlaps()
         {
             for (int i = 0; i < bodies.Count; i++)
             {
@@ -72,6 +93,27 @@ namespace GXPEngine
             }
         }
 
+        private void getPlayerDistToCrystal()
+        {
+            for (int i = 0; i < bodies.Count; i++)
+            {
+                for (int j = i + 1; j < bodies.Count; j++)
+                {
+                    if (bodies[i] is Player1 || bodies[i] is Player2 && bodies[j] is StaticCrystal)
+                    {
+                        float distance = (bodies[i].position - bodies[j].position).Length();
+                        if (distance < 64f)
+                        {
+                            if (Input.GetKeyDown(Key.SPACE))
+                            {
+                                (bodies[j] as StaticCrystal)._reflectAngle += 30;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         private void ResolveOverlap(Body body1, Body body2, Vec2 normal, float distance, bool floored)
         {
             // works BETTER if all bodies are Boxes.
@@ -80,6 +122,13 @@ namespace GXPEngine
             // and therefore clip downward and through the floor.
 
             Vec2 separation = normal * distance /** 0.5f*/;
+
+            // ignore collisions between one and another floor tile/button/etc.:
+            // !!! if used, BREAKS for example static crystals !!!
+            /*if (body1.movable == false && body2.movable == false)
+            {
+                return;
+            }*/
 
             // ignore collisions with static light beam tiles:
             if ((body1 is LightBeam && (body1 as LightBeam)._speed == 0) ||
@@ -164,10 +213,8 @@ namespace GXPEngine
             if (normal.y == 0) body1.velocity.x = 0;
         }
 
-        public void ResolveLightOverlap(LightBeam body1, Body body2, float distance)
+        private void ResolveLightOverlap(LightBeam body1, Body body2, float distance)
         {
-            // tile with fake blocks
-            // TODO: destroy fake blocks eventually
             for (int i = 0; i < distance + (int)body1.halfWidth * 2; i += (int)body1.halfWidth * 2)
             {
                 LightBeam beamTile = new LightBeam(body1.plOwner, (int)body1.velocity.GetAngleDegrees());
@@ -182,6 +229,24 @@ namespace GXPEngine
             {
                 StaticCrystal c = body2 as StaticCrystal;
                 c.OnLightBeam();
+                _beamTimer = TIME_BEFORE_REMOVEBEAM;
+            }
+        }
+
+        private void handleBeamTiles()
+        {
+            _beamTimer--;
+            Console.WriteLine(_beamTimer);
+            if (_beamTimer < 0)
+            {
+                _beamTimer = 0;
+                for (int i = bodies.Count; i > 0; i--)
+                {
+                    if (bodies[i-1] is LightBeam && (bodies[i-1] as LightBeam)._speed == 0)
+                    {
+                        RemoveBody(bodies[i-1]);
+                    }
+                }
             }
         }
     }

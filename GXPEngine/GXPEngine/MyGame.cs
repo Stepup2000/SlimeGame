@@ -23,7 +23,7 @@ public class MyGame : Game
 
         Tile tilea = new Tile(false, false);
         world.AddBody(tilea);
-        tilea.SetPosition(game.width - 64, game.height / 2 - 64);
+        tilea.SetPosition(320, game.height / 2 - 64);
 
         Tile tileb = new Tile(false, false);
         world.AddBody(tileb);

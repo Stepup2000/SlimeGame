@@ -92,7 +92,7 @@ public class Player2 : Box
     //----------------------------------------------------\\
     private void shoot()
     {
-        if (_abilityTimer == -1)
+        if (canJump && _abilityTimer == -1)
         {
             isBeamActivated = true;
             switch (_lastDirection)
