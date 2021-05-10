@@ -18,8 +18,9 @@ public class Player1 : Box
     //----------------------------------------------------\\
     //						Constructor					  \\
     //----------------------------------------------------\\
-    public Player1(int spriteSize) : base("RockySlimeSpritesheet_64x64.png", 32f, 32f, spriteSize, true, false)
+    public Player1(int spriteSize) : base("RockySlimeSpritesheet.png", 32f, 32f, true, false)
     {
+        initializeAnimFrames(width / spriteSize, height / spriteSize);
         _scale = 1;
         halfWidth = width / 2 * _scale;
         halfHeight = height / 2 * _scale;

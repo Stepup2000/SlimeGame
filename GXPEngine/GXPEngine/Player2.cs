@@ -20,8 +20,9 @@ public class Player2 : Box
     //----------------------------------------------------\\
     //						Constructor					  \\
     //----------------------------------------------------\\
-    public Player2(int spriteSize) : base("colors.png", 32f, 32f, spriteSize, true, false)
+    public Player2(int spriteSize) : base("colors.png", 32f, 32f, true, false)
     {
+        initializeAnimFrames(width / spriteSize, height / spriteSize);
         halfWidth = width / 2;
         halfHeight = height / 2;
         SetOrigin(width / 2, height / 2);
@@ -34,9 +35,16 @@ public class Player2 : Box
     private void controls()
     {
         arrowsInput();
-        if (Input.GetKey(Key.R) && _abilityTimer == -1)
+        if (Input.GetKeyDown(Key.K) && _abilityTimer == -1)
         {
             shoot();
+        }
+        if (Input.GetKeyDown(Key.I) && _abilityTimer == -1)
+        {
+            acceleration.y = -acceleration.y;
+            Mirror(false, true);
+            canJump = false;
+            _abilityTimer = _abilityCooldown;
         }
     }
 
@@ -50,6 +58,13 @@ public class Player2 : Box
         {
             velocity.y /= 2;
             velocity += new Vec2(0, -_jumpStrength);
+            canJump = false;
+        }
+
+        if (Input.GetKeyDown(Key.DOWN) && canJump == true)
+        {
+            velocity.y /= 2;
+            velocity += new Vec2(0, _jumpStrength);
             canJump = false;
         }
 

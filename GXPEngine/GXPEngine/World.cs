@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GXPEngine
 {
-    public class World : Canvas
+    public class World : GameObject
     {
         public static World main { get; private set; }
 
@@ -12,7 +12,7 @@ namespace GXPEngine
         private float _beamTimer = 0;
         private const float TIME_BEFORE_REMOVEBEAM = 120;
 
-        public World() : base(800, 600)
+        public World() : base()
         {
             if (main == null)
             {
@@ -101,13 +101,6 @@ namespace GXPEngine
         private void resolveOverlap(Body body1, Body body2, Vec2 normal, float distance, bool floored)
         {
             Vec2 separation = normal * distance /** 0.5f*/;
-
-            // ignore collisions between one and another floor tile/button/etc.:
-            // !!! if used, BREAKS for example static crystals !!!
-            /*if (body1.movable == false && body2.movable == false)
-            {
-                return;
-            }*/
 
             // ignore collisions with static light beam tiles:
             if ((body1 is LightBeam && (body1 as LightBeam)._speed == 0) ||
@@ -240,9 +233,9 @@ namespace GXPEngine
 
         private void resolveLightOverlap(LightBeam body1, Body body2, float distance)
         {
-            for (int i = 0; i < distance + (int)body1.halfWidth * 2; i += (int)body1.halfWidth * 2)
+            for (int i = 0; i < distance + (int)body1.halfWidth * 4; i += (int)body1.halfWidth * 4)
             {
-                LightBeam beamTile = new LightBeam(body1.plOwner, (int)body1.velocity.GetAngleDegrees(), 64);
+                LightBeam beamTile = new LightBeam(body1.plOwner, (int)body1.velocity.GetAngleDegrees());
                 beamTile.x = body1.plOwner.x + body1.velocity.x / body1._speed * i;
                 beamTile.y = body1.plOwner.y + body1.velocity.y / body1._speed * i;
                 AddBody(beamTile);
@@ -256,10 +249,25 @@ namespace GXPEngine
                 c.OnLightBeam();
             }
 
-            if (body2 is Sapling)
+            if (body2 is Sapling && (body2 as Sapling).isActivated == false)
             {
-                //Sapling s = body2 as Sapling;
-                //s.OnLightBeam();
+                Sapling s = body2 as Sapling;
+                s.isActivated = true;
+                foreach (Body b in bodies)
+                {
+                    if (b is Gate && (b as Gate)._activateID == s._activateID)
+                    {
+                        // play sound here I guess
+                        RemoveBody(b);
+                        b.LateDestroy();
+                    }
+                    /*if (b is Tile && (b as Tile)._activateID == s._activateID)
+                    {
+                        // play sound here I guess
+                        RemoveBody(b);
+                        b.LateDestroy();
+                    }*/
+                }
             }
             _beamTimer = TIME_BEFORE_REMOVEBEAM;
         }

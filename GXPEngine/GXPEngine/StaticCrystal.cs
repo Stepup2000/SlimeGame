@@ -9,15 +9,15 @@
 		//----------------------------------------------------\\
 		//						Constructor					  \\
 		//----------------------------------------------------\\
-		public StaticCrystal(int newReflectAngle, int spriteSize, float newScale = 1) : base("square.png", 32f, 32f, spriteSize)
+		public StaticCrystal(int newReflectAngle, float newScale = 1) : base("square.png", 32f, 32f)
 		{
+			SetOrigin(width / 2, height / 2);
 			if (newScale != 1)
             {
 				halfWidth *= newScale;
 				halfHeight *= newScale;
 				scale *= newScale;
 			}
-			SetOrigin(width / 2, height / 2);
 			_reflectAngle = newReflectAngle;
 		}
 

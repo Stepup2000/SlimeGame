@@ -9,7 +9,7 @@ class Rock : Box
 	//----------------------------------------------------\\
 	//						Constructor					  \\
 	//----------------------------------------------------\\
-	public Rock(int spriteSize) : base("colors.png", 32, 64, spriteSize, false, false)
+	public Rock(int spriteSize) : base("colors.png", 32, 64, false, false)
 	{
 		SetOrigin(width/2, height/2);
 		
