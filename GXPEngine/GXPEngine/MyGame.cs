@@ -21,24 +21,134 @@ public class MyGame : Game
         world.AddBody(player2);
         player2.SetPosition(game.width - 64, 100);
 
-        Tile tilea = new Tile(false, false);
-        world.AddBody(tilea);
-        tilea.SetPosition(320, game.height / 2 - 64);
-
-        Tile tileb = new Tile(false, false);
-        world.AddBody(tileb);
-        tileb.SetPosition(640, game.height / 4 - 64);
-
         StaticCrystal sc = new StaticCrystal(60);
         world.AddBody(sc);
         sc.SetPosition(512, game.height / 2 - 64);
 
-        for (int i = 0; i < game.width; i += 64)
+        //Walls
+        //Ground floor floating wall1 (vertical)
+        for (int i = 0; i < 2; i++)
         {
             Tile tile = new Tile();
             world.AddBody(tile);
-            tile.SetPosition(i, game.height / 2);
+            tile.SetPosition(512, (i * 64) + 928);
         }
+
+        //Ground floor floating wall2 (horizontal)
+        for (int i = 0; i < 2; i++)
+        {
+            Tile tile = new Tile();
+            world.AddBody(tile);
+            tile.SetPosition(1024, (i * 64) + 832);
+        }
+
+        //First floor floating wall (vertical)
+        for (int i = 0; i < 2; i++)
+        {
+            Tile tile = new Tile();
+            world.AddBody(tile);
+            tile.SetPosition(448, (i * 64) + 512);
+        }
+
+        //Second floor floating wall1 (vertical)
+        for (int i = 0; i < 2; i++)
+        {
+            Tile tile = new Tile();
+            world.AddBody(tile);
+            tile.SetPosition(448, (i * 64) + 288);
+        }
+
+        //Second floor floating wall2 (horizontal)
+        for (int i = 0; i < 3; i++)
+        {
+            Tile tile = new Tile();
+            world.AddBody(tile);
+            tile.SetPosition((i * 64) + 384, 128);
+        }
+
+        //Second floor floating wall3 (horizontal)
+        for (int i = 0; i < 2; i++)
+        {
+            Tile tile = new Tile();
+            world.AddBody(tile);
+            tile.SetPosition((i * 64) + 704, 256);
+        }
+
+        //Second floor floating wall4 (horizontal)
+        for (int i = 0; i < 2; i++)
+        {
+            Tile tile = new Tile();
+            world.AddBody(tile);
+            tile.SetPosition((i * 64) + 1280, 256);
+        }
+
+        //Second floor floating wall5 (vertical)
+        for (int i = 0; i < 2; i++)
+        {
+            Tile tile = new Tile();
+            world.AddBody(tile);
+            tile.SetPosition(1536, (i * 64) + 288);
+        }
+
+        //Ground floor platform
+        for (int i = 0; i < 4; i++)
+        {
+            Tile tile = new Tile();
+            world.AddBody(tile);
+            tile.SetPosition((i * 64) + 1792, 896);
+        }
+
+
+        //Floors
+        //First floor
+        for (int i = 0; i < 25; i++)
+        {
+            Tile tile = new Tile();
+            world.AddBody(tile);
+            tile.SetPosition(i * 64, 768);
+        }
+
+        //Second floor
+        for (int i = 0; i < 25; i++)
+        {
+            Tile tile = new Tile();
+            world.AddBody(tile);
+            tile.SetPosition((i * 64) + 384, 448);
+        }
+
+        //Boundary
+        //Ceiling
+        for (int i = 0; i < 31; i ++)
+        {
+            Tile tile = new Tile();
+            world.AddBody(tile);
+            tile.SetPosition(i * 64, 0);
+        }
+
+        //Floor
+        for (int i = 0; i < 31; i++)
+        {
+            Tile tile = new Tile();
+            world.AddBody(tile);
+            tile.SetPosition(i * 64, 1088);
+        }
+
+        //Left
+        for (int i = 0; i < 17; i++)
+        {
+            Tile tile = new Tile();
+            world.AddBody(tile);
+            tile.SetPosition(0, i * 64);
+        }
+
+        //Right
+        for (int i = 0; i < 17; i++)
+        {
+            Tile tile = new Tile();
+            world.AddBody(tile);
+            tile.SetPosition(game.width, i * 64);
+        }
+
     }
 
     void Update()
