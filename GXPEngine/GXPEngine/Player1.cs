@@ -1,44 +1,30 @@
 ﻿using GXPEngine;
 
-public class Player1 : AnimationSprite
+public class Player1 : Box
 {
     // public fields & properties:
-    public Vec2 position
-    {
-        get
-        {
-            return _position;
-        }
-    }
 
-    public Vec2 velocity;
-
-    public int _radius;
+    public bool canJump { get; set; }
 
     //private fields:
-    private Vec2 _position;
-    private Vec2 _acceleration = new Vec2(0, 0f);
-
-    
     private readonly float _maxSpeed = 3;
     private readonly float _speedIncrease = 0.05f;
-    private readonly float _jumpStrength = 10;
-    private readonly float _jumpCooldown = 30;
+    private readonly float _jumpStrength = 4;
     private readonly float _abilityCooldown = 30;
 
-    private float _scale = 1;
-    private float _jumpTimer = -1;
+    public float _scale { get; private set; }
     private float _abilityTimer = -1;
-    
 
     //----------------------------------------------------\\
     //						Constructor					  \\
     //----------------------------------------------------\\
-    public Player1(float px, float py) : base("Barry.png", 7, 1)
+    public Player1() : base("colors.png", 32f, 32f, true, false)
     {
-        SetOrigin(width/2, height/2);
-        _position.x = px;
-        _position.y = py;
+        _scale = 1;
+        halfWidth = width / 2 * _scale;
+        halfHeight = height / 2 * _scale;
+        SetOrigin(width / 2, height);
+        SetCycle(1, 7, 10);
     }
 
     //----------------------------------------------------\\
@@ -56,22 +42,25 @@ public class Player1 : AnimationSprite
     private void WASDInput()
     {
         //Jump
-        if (Input.GetKey(Key.W) && canJump() == true)
+        if (Input.GetKeyDown(Key.W) && canJump == true)
         {
+            velocity.y /= 2;
             velocity += new Vec2(0, -_jumpStrength);
-            _jumpTimer = _jumpCooldown;
+            canJump = false;
         }
 
         //Move to the left
         if (Input.GetKey(Key.A) && velocity.x > -_maxSpeed)
         {
             velocity += new Vec2(-_speedIncrease, 0);
+            Mirror(true, false);
         }
 
         //Move to the right
         if (Input.GetKey(Key.D) && velocity.x < _maxSpeed)
         {
             velocity += new Vec2(_speedIncrease, 0);
+            Mirror(false, false);
         }
     }
 
@@ -94,19 +83,6 @@ public class Player1 : AnimationSprite
     }
 
     //----------------------------------------------------\\
-    //						CanJump 					  \\
-    //----------------------------------------------------\\
-    private bool canJump()
-    {
-        //Do boundary check stuff
-        if (_jumpTimer == -1)
-        {
-            return true;
-        }
-        else return false;
-    }
-
-    //----------------------------------------------------\\
     //						deceleration				  \\
     //----------------------------------------------------\\
     private void deceleration()
@@ -124,15 +100,6 @@ public class Player1 : AnimationSprite
     }
 
     //----------------------------------------------------\\
-    //						applyVelocity				  \\
-    //----------------------------------------------------\\
-    private void applyVelocity()
-    {
-        velocity += _acceleration;
-        _position += velocity;
-    }
-
-    //----------------------------------------------------\\
     //						grow        				  \\
     //----------------------------------------------------\\
     private void grow()
@@ -140,7 +107,7 @@ public class Player1 : AnimationSprite
         if (_scale < 1.5f)
         {
             _scale += 0.5f;
-            changeAnimationCycle();
+            changeScale();
         }
     }
 
@@ -152,7 +119,7 @@ public class Player1 : AnimationSprite
         if (_scale > 0.5f)
         {
             _scale -= 0.5f;
-            changeAnimationCycle();
+            changeScale();
         }
     }
 
@@ -161,10 +128,6 @@ public class Player1 : AnimationSprite
     //----------------------------------------------------\\
     private void timers()
     {
-        if (_jumpTimer > -1)
-        {
-            _jumpTimer -= 1;
-        }
 
         if (_abilityTimer > -1)
         {
@@ -177,47 +140,53 @@ public class Player1 : AnimationSprite
     //----------------------------------------------------\\
     private void changeAnimationCycle()
     {
-        switch(_scale)
+
+        if (velocity.x != 0 && velocity.y == 0)
         {
-            //Small
-            case 0.5f:
-                SetCycle(1, 1, 0);
-                SetFrame(1);
-                break;
+            SetCycle(1, 7, 10);
+            if (velocity.x > 0)
+            {
+                Mirror(false, false);
+            }
 
-            //Medium
-            case 1:
-                SetCycle(2, 2, 0);
-                SetFrame(2);
-                break;
-
-            //Big
-            case 1.5f:
-                SetCycle(3, 3, 0);
-                SetFrame(3);
-                break;
+            if (velocity.x < 0)
+            {
+                Mirror(true, false);
+            }
+        }
+        else
+        {
+            SetFrame(0);
         }
     }
 
     //----------------------------------------------------\\
-    //						updateScreenPosition		  \\
+    //						changeScale         		  \\
     //----------------------------------------------------\\
-    private void updateScreenPosition()
+    private void changeScale()
     {
-        x = _position.x;
-        y = _position.y;
+        scaleX = _scale;
+        scaleY = _scale;
+
+        halfWidth = width / 2;
+        halfHeight = height / 2;
     }
 
     //----------------------------------------------------\\
-    //						Update  					  \\
+    //						Step                 		  \\
     //----------------------------------------------------\\
-    public void Update()
+    public override void Step()
     {
         controls();
         deceleration();
-        applyVelocity();
+        changeAnimationCycle();
         timers();
-        updateScreenPosition();
-        System.Console.WriteLine(_scale);
+        Animate();
+
+        velocity += acceleration;
+        position += velocity * (1 / _scale);
+
+        x = position.x;
+        y = position.y + height / 2;
     }
 }
