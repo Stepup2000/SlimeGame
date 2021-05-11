@@ -249,6 +249,7 @@ namespace GXPEngine
             for (int i = 0; i < distance + (int)body1.halfWidth * 4; i += (int)body1.halfWidth * 4)
             {
                 LightBeam beamTile = new LightBeam(body1.plOwner, (int)body1.velocity.GetAngleDegrees());
+                beamTile.rotation = body1.velocity.GetAngleDegrees();
                 beamTile.x = body1.plOwner.x + body1.velocity.x / body1._speed * i;
                 beamTile.y = body1.plOwner.y + body1.velocity.y / body1._speed * i;
                 AddBody(beamTile);

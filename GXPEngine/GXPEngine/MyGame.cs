@@ -8,6 +8,7 @@ public class MyGame : Game
 
     public MyGame() : base(1920, 1080, false)
     {
+        AddChild(new Sprite("Background.png"));
         loadLevel();
     }
 
@@ -96,7 +97,7 @@ public class MyGame : Game
         //Ground floor floating wall1 (vertical)
         for (int i = 0; i < 2; i++)
         {
-            Tile tile = new Tile();
+            Tile tile = new Tile(47);
             world.AddBody(tile);
             tile.SetPosition(512, (i * 64) + 928);
         }
@@ -104,7 +105,7 @@ public class MyGame : Game
         //Ground floor floating wall2 (vertical)
         for (int i = 0; i < 2; i++)
         {
-            Tile tile = new Tile();
+            Tile tile = new Tile(47);
             world.AddBody(tile);
             tile.SetPosition(1152, (i * 64) + 832);
         }
@@ -112,7 +113,7 @@ public class MyGame : Game
         //First floor floating wall (vertical)
         for (int i = 0; i < 2; i++)
         {
-            Tile tile = new Tile();
+            Tile tile = new Tile(47);
             world.AddBody(tile);
             tile.SetPosition(448, (i * 64) + 512);
         }
@@ -120,7 +121,7 @@ public class MyGame : Game
         //Second floor floating wall1 (vertical)
         for (int i = 0; i < 2; i++)
         {
-            Tile tile = new Tile();
+            Tile tile = new Tile(47);
             world.AddBody(tile);
             tile.SetPosition(448, (i * 64) + 288);
         }
@@ -128,7 +129,7 @@ public class MyGame : Game
         //Second floor floating wall2 (horizontal)
         for (int i = 0; i < 3; i++)
         {
-            Tile tile = new Tile();
+            Tile tile = new Tile(23);
             world.AddBody(tile);
             tile.SetPosition((i * 64) + 384, 128);
         }
@@ -136,7 +137,7 @@ public class MyGame : Game
         //Second floor floating wall3 (horizontal)
         for (int i = 0; i < 2; i++)
         {
-            Tile tile = new Tile();
+            Tile tile = new Tile(24);
             world.AddBody(tile);
             tile.SetPosition((i * 64) + 704, 256);
         }
@@ -144,7 +145,7 @@ public class MyGame : Game
         //Second floor floating wall4 (horizontal)
         for (int i = 0; i < 2; i++)
         {
-            Tile tile = new Tile();
+            Tile tile = new Tile(24);
             world.AddBody(tile);
             tile.SetPosition((i * 64) + 1280, 256);
         }
@@ -152,7 +153,7 @@ public class MyGame : Game
         //Second floor floating wall5 (vertical)
         for (int i = 0; i < 2; i++)
         {
-            Tile tile = new Tile();
+            Tile tile = new Tile(47);
             world.AddBody(tile);
             tile.SetPosition(1536, (i * 64) + 288);
         }
@@ -160,7 +161,7 @@ public class MyGame : Game
         //Second floor ending platform (horizontal)
         for (int i = 0; i < 5; i++)
         {
-            Tile tile = new Tile();
+            Tile tile = new Tile(24);
             world.AddBody(tile);
             tile.SetPosition((i* 64) + 1600, 192);
         }
@@ -168,7 +169,7 @@ public class MyGame : Game
         //Ground floor platform
         for (int i = 0; i < 4; i++)
         {
-            Tile tile = new Tile();
+            Tile tile = new Tile(24);
             world.AddBody(tile);
             tile.SetPosition((i * 64) + 1792, 896);
         }
@@ -178,7 +179,7 @@ public class MyGame : Game
         //First floor
         for (int i = 0; i < 25; i++)
         {
-            Tile tile = new Tile();
+            Tile tile = new Tile(228);
             world.AddBody(tile);
             tile.SetPosition(i * 64, 768);
         }
@@ -186,7 +187,7 @@ public class MyGame : Game
         //Second floor
         for (int i = 0; i < 25; i++)
         {
-            Tile tile = new Tile();
+            Tile tile = new Tile(228);
             world.AddBody(tile);
             tile.SetPosition((i * 64) + 384, 448);
         }
@@ -195,7 +196,7 @@ public class MyGame : Game
         //Ceiling
         for (int i = 0; i < 31; i++)
         {
-            Tile tile = new Tile();
+            Tile tile = new Tile(31);
             world.AddBody(tile);
             tile.SetPosition(i * 64, 0);
         }
@@ -203,7 +204,7 @@ public class MyGame : Game
         //Floor
         for (int i = 0; i < 31; i++)
         {
-            Tile tile = new Tile();
+            Tile tile = new Tile(228);
             world.AddBody(tile);
             tile.SetPosition(i * 64, 1088);
         }
@@ -211,7 +212,7 @@ public class MyGame : Game
         //Left
         for (int i = 0; i < 17; i++)
         {
-            Tile tile = new Tile();
+            Tile tile = new Tile(57);
             world.AddBody(tile);
             tile.SetPosition(0, i * 64);
         }
@@ -219,7 +220,7 @@ public class MyGame : Game
         //Right
         for (int i = 0; i < 17; i++)
         {
-            Tile tile = new Tile();
+            Tile tile = new Tile(64);
             world.AddBody(tile);
             tile.SetPosition(game.width, i * 64);
         }

@@ -4,7 +4,7 @@
     {
         public int _activateID { get; set; }
 
-        public Seed(int id) : base("triangle.png", 32f, 32f, true, false)
+        public Seed(int id) : base("Seed.png", 32f, 32f, true, false)
         {
             _activateID = id;
         }

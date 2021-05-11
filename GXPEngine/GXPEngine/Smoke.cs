@@ -8,7 +8,7 @@ class Smoke : AnimationSprite
 	//----------------------------------------------------\\
 	//						Constructor					  \\
 	//----------------------------------------------------\\
-	public Smoke(float newX, float newY, float size) : base("checkers.png", 1, 1)
+	public Smoke(float newX, float newY, float size) : base("Smoke.png", 3, 3)
 	{
 		SetOrigin(width / 2, height / 2);
 		SetXY(newX, newY);
@@ -21,7 +21,7 @@ class Smoke : AnimationSprite
 	//----------------------------------------------------\\
 	private void animationEnd()
     {
-		if (currentFrame == 0)
+		if (currentFrame == 8)
         {
 			LateDestroy();
         }
@@ -32,6 +32,7 @@ class Smoke : AnimationSprite
 	//----------------------------------------------------\\
 	public void Update()
 	{
+		Animate();
 		animationEnd();
 	}
 }
