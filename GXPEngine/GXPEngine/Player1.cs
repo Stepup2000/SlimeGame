@@ -18,7 +18,7 @@ public class Player1 : Box
     //----------------------------------------------------\\
     //						Constructor					  \\
     //----------------------------------------------------\\
-    public Player1() : base("RockySlimeSpritesheet.png", 32f, 32f, true, false)
+    public Player1() : base("RockySpriteSmall.png", 32f, 32f, true, false)
     {
         initializeAnimFrames(width / 64, height / 64);
         //initializeAnimFrames(width / spriteSize, height / spriteSize);
@@ -193,6 +193,5 @@ public class Player1 : Box
 
         x = position.x;
         y = position.y + height / 2;
-        System.Console.WriteLine(velocity.y);
     }
 }

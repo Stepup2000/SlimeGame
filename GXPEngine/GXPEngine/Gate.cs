@@ -6,7 +6,7 @@
 
         // define custom filename, halfWidth, halfHeight as there are different sized gaps
         public Gate(float pHalfWidth, float pHalfHeight, int id)
-            : base("square.png", pHalfWidth, pHalfHeight, false, false)
+            : base("Vines.png", pHalfWidth, pHalfHeight, false, false)
         {
             if (pHalfWidth > pHalfHeight)
             {
