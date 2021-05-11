@@ -15,16 +15,16 @@ public class MyGame : Game
     {
         world = new World();
 
-        Player1 player = new Player1(64);
+        Player1 player = new Player1();
         world.AddBody(player);
         player.SetPosition(64, 100);
 
-        Player2 player2 = new Player2(64);
+        Player2 player2 = new Player2();
         world.AddBody(player2);
         player2.SetPosition(900, 65);
 
         // Vine gate
-        Gate gate = new Gate("square.png", 32, 32, 0, 8);
+        Gate gate = new Gate(32, 32, 0);
         world.AddBody(gate);
         gate.SetPosition(200, 200);
 
@@ -33,16 +33,21 @@ public class MyGame : Game
         world.AddBody(sap);
         sap.SetPosition(800, 640);
 
+        // Gate linked to spawnable sapling (ID 99)
+        Gate sgate = new Gate(32, 32, 99);
+        world.AddBody(sgate);
+        sgate.SetPosition(200, 200);
+
         // Top rock
-        Rock rock = new Rock(64);
+        Rock rock = new Rock();
         world.AddBody(rock);
         rock.SetPosition(1856, 384);
 
-        Rock rock2 = new Rock(64);
+        Rock rock2 = new Rock();
         world.AddBody(rock2);
         rock2.SetPosition(960, 704);
 
-        Rock rock3 = new Rock(64);
+        Rock rock3 = new Rock();
         world.AddBody(rock3);
         rock3.SetPosition(960, 1024);
 
@@ -91,7 +96,7 @@ public class MyGame : Game
         //Ground floor floating wall1 (vertical)
         for (int i = 0; i < 2; i++)
         {
-            Tile tile = new Tile(64);
+            Tile tile = new Tile();
             world.AddBody(tile);
             tile.SetPosition(512, (i * 64) + 928);
         }
@@ -99,7 +104,7 @@ public class MyGame : Game
         //Ground floor floating wall2 (vertical)
         for (int i = 0; i < 2; i++)
         {
-            Tile tile = new Tile(64);
+            Tile tile = new Tile();
             world.AddBody(tile);
             tile.SetPosition(1152, (i * 64) + 832);
         }
@@ -107,7 +112,7 @@ public class MyGame : Game
         //First floor floating wall (vertical)
         for (int i = 0; i < 2; i++)
         {
-            Tile tile = new Tile(64);
+            Tile tile = new Tile();
             world.AddBody(tile);
             tile.SetPosition(448, (i * 64) + 512);
         }
@@ -115,7 +120,7 @@ public class MyGame : Game
         //Second floor floating wall1 (vertical)
         for (int i = 0; i < 2; i++)
         {
-            Tile tile = new Tile(64);
+            Tile tile = new Tile();
             world.AddBody(tile);
             tile.SetPosition(448, (i * 64) + 288);
         }
@@ -123,7 +128,7 @@ public class MyGame : Game
         //Second floor floating wall2 (horizontal)
         for (int i = 0; i < 3; i++)
         {
-            Tile tile = new Tile(64);
+            Tile tile = new Tile();
             world.AddBody(tile);
             tile.SetPosition((i * 64) + 384, 128);
         }
@@ -131,7 +136,7 @@ public class MyGame : Game
         //Second floor floating wall3 (horizontal)
         for (int i = 0; i < 2; i++)
         {
-            Tile tile = new Tile(64);
+            Tile tile = new Tile();
             world.AddBody(tile);
             tile.SetPosition((i * 64) + 704, 256);
         }
@@ -139,7 +144,7 @@ public class MyGame : Game
         //Second floor floating wall4 (horizontal)
         for (int i = 0; i < 2; i++)
         {
-            Tile tile = new Tile(64);
+            Tile tile = new Tile();
             world.AddBody(tile);
             tile.SetPosition((i * 64) + 1280, 256);
         }
@@ -147,7 +152,7 @@ public class MyGame : Game
         //Second floor floating wall5 (vertical)
         for (int i = 0; i < 2; i++)
         {
-            Tile tile = new Tile(64);
+            Tile tile = new Tile();
             world.AddBody(tile);
             tile.SetPosition(1536, (i * 64) + 288);
         }
@@ -155,7 +160,7 @@ public class MyGame : Game
         //Second floor ending platform (horizontal)
         for (int i = 0; i < 5; i++)
         {
-            Tile tile = new Tile(64);
+            Tile tile = new Tile();
             world.AddBody(tile);
             tile.SetPosition((i* 64) + 1600, 192);
         }
@@ -163,7 +168,7 @@ public class MyGame : Game
         //Ground floor platform
         for (int i = 0; i < 4; i++)
         {
-            Tile tile = new Tile(64);
+            Tile tile = new Tile();
             world.AddBody(tile);
             tile.SetPosition((i * 64) + 1792, 896);
         }
@@ -173,7 +178,7 @@ public class MyGame : Game
         //First floor
         for (int i = 0; i < 25; i++)
         {
-            Tile tile = new Tile(64);
+            Tile tile = new Tile();
             world.AddBody(tile);
             tile.SetPosition(i * 64, 768);
         }
@@ -181,7 +186,7 @@ public class MyGame : Game
         //Second floor
         for (int i = 0; i < 25; i++)
         {
-            Tile tile = new Tile(64);
+            Tile tile = new Tile();
             world.AddBody(tile);
             tile.SetPosition((i * 64) + 384, 448);
         }
@@ -190,7 +195,7 @@ public class MyGame : Game
         //Ceiling
         for (int i = 0; i < 31; i++)
         {
-            Tile tile = new Tile(64);
+            Tile tile = new Tile();
             world.AddBody(tile);
             tile.SetPosition(i * 64, 0);
         }
@@ -198,7 +203,7 @@ public class MyGame : Game
         //Floor
         for (int i = 0; i < 31; i++)
         {
-            Tile tile = new Tile(64);
+            Tile tile = new Tile();
             world.AddBody(tile);
             tile.SetPosition(i * 64, 1088);
         }
@@ -206,7 +211,7 @@ public class MyGame : Game
         //Left
         for (int i = 0; i < 17; i++)
         {
-            Tile tile = new Tile(64);
+            Tile tile = new Tile();
             world.AddBody(tile);
             tile.SetPosition(0, i * 64);
         }
@@ -214,7 +219,7 @@ public class MyGame : Game
         //Right
         for (int i = 0; i < 17; i++)
         {
-            Tile tile = new Tile(64);
+            Tile tile = new Tile();
             world.AddBody(tile);
             tile.SetPosition(game.width, i * 64);
         }

@@ -20,9 +20,10 @@ public class Player2 : Box
     //----------------------------------------------------\\
     //						Constructor					  \\
     //----------------------------------------------------\\
-    public Player2(int spriteSize) : base("colors.png", 32f, 32f, true, false)
+    public Player2() : base("colors.png", 32f, 32f, true, false)
     {
-        initializeAnimFrames(width / spriteSize, height / spriteSize);
+        initializeAnimFrames(width / 64, height / 64);
+        //initializeAnimFrames(width / spriteSize, height / spriteSize);
         halfWidth = width / 2;
         halfHeight = height / 2;
         SetOrigin(width / 2, height / 2);

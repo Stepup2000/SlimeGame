@@ -124,6 +124,12 @@ namespace GXPEngine
                 }
             }
 
+            // ignore collisions between gates and tiles (do not push tiles with gates behind them):
+            if (body1 is Gate && body2 is Tile)
+            {
+                return;
+            }
+
             // stop light beam from advancing on non-Player2 surfaces
             // and return (skip actual resolve checks to emulate non-solid):
             if (body1 is Player2 == false && body2 is LightBeam)
@@ -162,7 +168,8 @@ namespace GXPEngine
                         if (body2 is Player1)
                         {
                             button.isActivated = true;
-                            for (int i = bodies.Count; i > 0; i--)
+                            #region REMOVE GATE (DISABLED)
+                            /*for (int i = bodies.Count; i > 0; i--)
                             {
                                 if (bodies[i - 1] is Gate && (bodies[i - 1] as Gate)._activateID == button._activateID)
                                 {
@@ -170,7 +177,13 @@ namespace GXPEngine
                                     RemoveBody(bodies[i - 1]);
                                     bodies[i - 1].LateDestroy();
                                 }
-                            }
+                            }*/
+                            #endregion
+                            // spawn sapling instead
+                            Sapling s = new Sapling(99);
+                            s.rotation = 180;
+                            AddBody(s);
+                            s.SetPosition(192, 576);
                         }
                     }
                 }
