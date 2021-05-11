@@ -187,9 +187,9 @@ public class Player1 : Box
         Animate();
 
         velocity += acceleration;
-        //position += velocity * (1 / _scale);
-        position.x += velocity.x * (1 / _scale);
-        position.y += velocity.y;
+        position += velocity * (1 / _scale);
+        //position.x += velocity.x * (1 / _scale);
+        //position.y += velocity.y;
 
         x = position.x;
         y = position.y + height / 2;

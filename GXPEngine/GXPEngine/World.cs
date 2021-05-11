@@ -31,6 +31,7 @@ namespace GXPEngine
         {
             RemoveChild(body);
             bodies.Remove(body);
+            body.LateDestroy();
         }
 
         private void addNewBodies()
@@ -44,11 +45,11 @@ namespace GXPEngine
 
         public void Step()
         {
-            handleBeamTiles();
             addNewBodies();
             handleIntegration();
             handleOverlaps();
             getPlayerDistToCrystal();
+            handleBeamTiles();
         }
 
         private void handleIntegration() {
@@ -115,6 +116,12 @@ namespace GXPEngine
                 return;
             }
 
+            // ignore player-sapling collisions (aesthetics):
+            if ((body1 is Player1 || body1 is Player2) && body2 is Sapling)
+            {
+                return;
+            }
+
             // ignore any collision between light beams and the object shooting them:
             if (body2 is LightBeam)
             {
@@ -142,14 +149,14 @@ namespace GXPEngine
             // BUTTON collision:
             // on collision (after clipping) between seed/slime and ground
             // button, destroy gate that button is linked to:
-            if (body1 is Button)
+            if (body2 is Button)
             {
-                Button button = body1 as Button;
+                Button button = body2 as Button;
                 if (button.isActivated == false) 
                 {
                     if (button._buttonType == (int)Button.bType.SEED)
                     {
-                        if (body2 is Seed)
+                        if (body1 is Seed)
                         {
                             button.isActivated = true;
                             for (int i = bodies.Count; i > 0; i--)
@@ -157,15 +164,15 @@ namespace GXPEngine
                                 if (bodies[i - 1] is Gate && (bodies[i - 1] as Gate)._activateID == button._activateID)
                                 {
                                     // play sound here I guess
-                                    RemoveBody(bodies[i - 1]);
                                     bodies[i - 1].LateDestroy();
+                                    RemoveBody(bodies[i - 1]);
                                 }
                             }
                         }
                     }
                     if (button._buttonType == (int)Button.bType.SLIME)
                     {
-                        if (body2 is Player1)
+                        if (body1 is Player1)
                         {
                             button.isActivated = true;
                             #region REMOVE GATE (DISABLED)
@@ -181,9 +188,9 @@ namespace GXPEngine
                             #endregion
                             // spawn sapling instead
                             Sapling s = new Sapling(99);
-                            s.rotation = 180;
+                            s.rotation = 270;
                             AddBody(s);
-                            s.SetPosition(192, 576);
+                            s.SetPosition(384, 576);
                         }
                     }
                 }
@@ -210,10 +217,11 @@ namespace GXPEngine
             }
 
             // change scene on exit:
-            /*else if ((body1 is Player1 || body1 is Player2) && body2 is Exit)
+            else if ((body1 is Player1 || body1 is Player2) && body2 is Exit)
             {
-                gotoendscene
-            }*/
+                // TODO: End game SOMEHOW
+                return;
+            }
 
             // move movable body together with pusher:
             else if (body2.movable && normal.y == 0)
@@ -249,12 +257,12 @@ namespace GXPEngine
             for (int i = 0; i < distance + (int)body1.halfWidth * 4; i += (int)body1.halfWidth * 4)
             {
                 LightBeam beamTile = new LightBeam(body1.plOwner, (int)body1.velocity.GetAngleDegrees());
+                beamTile.rotation = body1.velocity.GetAngleDegrees();
                 beamTile.x = body1.plOwner.x + body1.velocity.x / body1._speed * i;
                 beamTile.y = body1.plOwner.y + body1.velocity.y / body1._speed * i;
                 AddBody(beamTile);
             }
             RemoveBody(body1);
-            body1.LateDestroy();
 
             if (body2 is StaticCrystal)
             {
@@ -270,16 +278,10 @@ namespace GXPEngine
                 {
                     if (bodies[i - 1] is Gate && (bodies[i - 1] as Gate)._activateID == s._activateID)
                     {
+                        Gate g = bodies[i - 1] as Gate;
                         // play sound here I guess
-                        RemoveBody(bodies[i - 1]);
-                        bodies[i - 1].LateDestroy();
+                        RemoveBody(g);
                     }
-                    /*if (bodies[i - 1] is Tile && (bodies[i - 1] as Tile)._activateID == s._activateID)
-                    {
-                        // play sound here I guess
-                        RemoveBody(bodies[i - 1]);
-                        bodies[i - 1].LateDestroy();
-                    }*/
                 }
             }
             _beamTimer = TIME_BEFORE_REMOVEBEAM;

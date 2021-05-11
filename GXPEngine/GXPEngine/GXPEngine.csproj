@@ -41,6 +41,7 @@
     <Compile Include="Button.cs" />
     <Compile Include="Circle.cs" />
     <Compile Include="CollisionInfo.cs" />
+    <Compile Include="Exit.cs" />
     <Compile Include="Gate.cs" />
     <Compile Include="GXPEngine\AddOns\Gizmos.cs" />
     <Compile Include="GXPEngine\AddOns\TiledLoader.cs" />
