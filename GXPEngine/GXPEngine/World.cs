@@ -88,10 +88,10 @@ namespace GXPEngine
                         float distance = (bodies[i].position - bodies[j].position).Length();
                         if (distance < 96f)
                         {
-                            if (Input.GetKeyDown(Key.SPACE))
+                            if (Input.GetKeyDown(Key.SPACE) || Input.GetKeyDown(Key.L))
                             {
                                 (bodies[j] as StaticCrystal).rotation += 30;
-                                (bodies[j] as StaticCrystal)._reflectAngle += 30;
+                                (bodies[j] as StaticCrystal)._reflectAngle -= 30;
                             }
                         }
                     }
@@ -165,6 +165,9 @@ namespace GXPEngine
                                 {
                                     // play sound here I guess
                                     bodies[i - 1].LateDestroy();
+                                    Smoke smoke = new Smoke(bodies[i - 1].x, bodies[i - 1].y, 2);
+                                    game.AddChild(smoke);
+                                    RemoveBody(body1);
                                     RemoveBody(bodies[i - 1]);
                                 }
                             }
@@ -209,8 +212,9 @@ namespace GXPEngine
             // crush rocks:
             if (body1 is Player1 && (body1 as Player1)._scale > 1 && body2 is Rock) 
             {
-                StaticCrystal crystal = new StaticCrystal(90, 1);
+                StaticCrystal crystal = new StaticCrystal(false, true, 90, 1);
                 crystal.SetPosition(body2.position.x, body2.position.y);
+                crystal.acceleration = new Vec2(0, 0);
                 AddBody(crystal);
                 (body2 as Rock).Delete();
                 RemoveBody(body2);
@@ -280,6 +284,8 @@ namespace GXPEngine
                     {
                         Gate g = bodies[i - 1] as Gate;
                         // play sound here I guess
+                        Smoke smoke = new Smoke(g.x, g.y, 2);
+                        game.AddChild(smoke);
                         RemoveBody(g);
                     }
                 }

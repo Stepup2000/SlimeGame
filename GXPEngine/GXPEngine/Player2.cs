@@ -38,11 +38,11 @@ public class Player2 : Box
     private void controls()
     {
         arrowsInput();
-        if (Input.GetKeyDown(Key.K) && _abilityTimer == -1)
+        if (Input.GetKeyDown(Key.J) && _abilityTimer == -1)
         {
             shoot();
         }
-        if (Input.GetKeyDown(Key.I) && _abilityTimer == -1)
+        if (Input.GetKeyDown(Key.K) && _abilityTimer == -1)
         {
             acceleration.y = -acceleration.y;
             _invertGravity = !_invertGravity;
@@ -58,7 +58,7 @@ public class Player2 : Box
     private void arrowsInput()
     {
         //Jump
-        if (Input.GetKeyDown(Key.UP) /*&& canJump == true*/)
+        if (Input.GetKeyDown(Key.UP) && canJump == true)
         {
             velocity.y /= 2;
             velocity += new Vec2(0, -_jumpStrength);
@@ -111,7 +111,7 @@ public class Player2 : Box
     //----------------------------------------------------\\
     private void shoot()
     {
-        if (/*canJump &&*/ _abilityTimer == -1)
+        if (canJump && _abilityTimer == -1)
         {
             isBeamActivated = true;
             switch (_lastDirection)
