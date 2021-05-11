@@ -110,6 +110,7 @@ public class Player1 : Box
         {
             _scale += 0.5f;
             changeScale();
+            new Sound("Grow.wav", false).Play();
         }
     }
 
@@ -122,6 +123,7 @@ public class Player1 : Box
         {
             _scale -= 0.5f;
             changeScale();
+            new Sound("Shrink.wav", false).Play();
         }
     }
 

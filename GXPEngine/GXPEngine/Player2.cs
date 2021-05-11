@@ -127,6 +127,7 @@ public class Player2 : Box
                     break;
             }
             _abilityTimer = _abilityCooldown;
+            new Sound("LightBeam.wav", false).Play();
         }
     }
 

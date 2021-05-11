@@ -169,6 +169,7 @@ namespace GXPEngine
                                     game.AddChild(smoke);
                                     RemoveBody(body1);
                                     RemoveBody(bodies[i - 1]);
+                                    new Sound("PlantSeed.wav", false).Play();
                                 }
                             }
                         }
@@ -212,12 +213,13 @@ namespace GXPEngine
             // crush rocks:
             if (body1 is Player1 && (body1 as Player1)._scale > 1 && body2 is Rock) 
             {
-                StaticCrystal crystal = new StaticCrystal(false, true, 90, 1);
+                StaticCrystal crystal = new StaticCrystal(90, 1);
                 crystal.SetPosition(body2.position.x, body2.position.y);
                 crystal.acceleration = new Vec2(0, 0);
                 AddBody(crystal);
                 (body2 as Rock).Delete();
                 RemoveBody(body2);
+                new Sound("RockCrushed.wav", false).Play();
             }
 
             // change scene on exit:
@@ -287,6 +289,7 @@ namespace GXPEngine
                         Smoke smoke = new Smoke(g.x, g.y, 2);
                         game.AddChild(smoke);
                         RemoveBody(g);
+                        new Sound("PlantSeed.wav", false).Play();
                     }
                 }
             }
