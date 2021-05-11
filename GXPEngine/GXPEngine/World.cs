@@ -43,6 +43,13 @@ namespace GXPEngine
             waitList.Clear();
         }
 
+        public void DestroyLevel()
+        {
+            bodies.Clear();
+            game.RemoveChild(this);
+            LateDestroy();
+        }
+
         public void Step()
         {
             addNewBodies();
@@ -112,12 +119,6 @@ namespace GXPEngine
 
             // ignore any possible collision between Player1 and Player2:
             if (body1 is Player1 && body2 is Player2)
-            {
-                return;
-            }
-
-            // ignore player-sapling collisions (aesthetics):
-            if ((body1 is Player1 || body1 is Player2) && body2 is Sapling)
             {
                 return;
             }
@@ -209,7 +210,7 @@ namespace GXPEngine
             // crush rocks:
             if (body1 is Player1 && (body1 as Player1)._scale > 1 && body2 is Rock) 
             {
-                StaticCrystal crystal = new StaticCrystal(90, 1);
+                StaticCrystal crystal = new StaticCrystal(false, true, 90, 1);
                 crystal.SetPosition(body2.position.x, body2.position.y);
                 AddBody(crystal);
                 (body2 as Rock).Delete();

@@ -4,25 +4,27 @@ using GXPEngine;
 
 public class MyGame : Game
 {
-    World world;
+    public World world;
+    public bool paused { get; set; }
 
     public MyGame() : base(1920, 1080, false)
     {
-        loadLevel();
+        AddChild(new Menu((int)Menu.ScrType.MAINMENU));      // main/start menu
     }
 
-    private void loadLevel()
+    public void LoadLevel()
     {
+        paused = false;
         world = new World();
 
         #region IMPORTANT SINGULAR OBJECTS
         Player1 player = new Player1();
         world.AddBody(player);
-        player.SetPosition(64, 512);
+        player.SetPosition(64, 1024);
 
         Player2 player2 = new Player2();
         world.AddBody(player2);
-        player2.SetPosition(900, 1024);
+        player2.SetPosition(128, 1024);
 
         Exit exit = new Exit();
         world.AddBody(exit);
@@ -106,41 +108,45 @@ public class MyGame : Game
         Rock rock3 = new Rock();
         world.AddBody(rock3);
         rock3.SetPosition(960, 1024);
+
+        Rock rock4 = new Rock();
+        world.AddBody(rock4);
+        rock4.SetPosition(1312, 192);
         #endregion
 
         // Crystals
         #region CRYSTALS
-        StaticCrystal sc = new StaticCrystal(190);
+        StaticCrystal sc = new StaticCrystal(false, false, 190);
         sc.rotation = 180;
         world.AddBody(sc);
         sc.SetPosition(768, 512);
 
-        StaticCrystal sc2 = new StaticCrystal(320);
+        StaticCrystal sc2 = new StaticCrystal(false, false, 320);
         sc2.rotation = 90;
         world.AddBody(sc2);
         sc2.SetPosition(512, 576);
 
-        StaticCrystal scleft = new StaticCrystal(80);
+        StaticCrystal scleft = new StaticCrystal(false, false, 80);
         scleft.rotation = 90;
         world.AddBody(scleft);
         scleft.SetPosition(64, 256);
 
-        StaticCrystal scup1 = new StaticCrystal(348);
+        StaticCrystal scup1 = new StaticCrystal(false, false, 348);
         scup1.rotation = 180;
         world.AddBody(scup1);
         scup1.SetPosition(768, 64);
 
-        StaticCrystal scup2 = new StaticCrystal(260);
+        StaticCrystal scup2 = new StaticCrystal(false, false, 260);
         scup2.rotation = 180;
         world.AddBody(scup2);
         scup2.SetPosition(1088, 64);
 
-        StaticCrystal scr1 = new StaticCrystal(340);
+        StaticCrystal scr1 = new StaticCrystal(false, false, 340);
         scr1.rotation = 90;
         world.AddBody(scr1);
         scr1.SetPosition(1600, 288);
 
-        StaticCrystal scr2 = new StaticCrystal(185);
+        StaticCrystal scr2 = new StaticCrystal(false, false, 185);
         scr2.rotation = 180;
         world.AddBody(scr2);
         scr2.SetPosition(1856, 256);
@@ -151,7 +157,7 @@ public class MyGame : Game
         //Ground floor floating wall1 (vertical)
         for (int i = 0; i < 2; i++)
         {
-            Tile tile = new Tile();
+            Tile tile = new Tile(47);
             world.AddBody(tile);
             tile.SetPosition(512, (i * 64) + 928);
         }
@@ -159,7 +165,7 @@ public class MyGame : Game
         //Ground floor floating wall2 (vertical)
         for (int i = 0; i < 2; i++)
         {
-            Tile tile = new Tile();
+            Tile tile = new Tile(47);
             world.AddBody(tile);
             tile.SetPosition(1152, (i * 64) + 832);
         }
@@ -167,7 +173,7 @@ public class MyGame : Game
         //First floor floating wall (vertical)
         for (int i = 0; i < 2; i++)
         {
-            Tile tile = new Tile();
+            Tile tile = new Tile(47);
             world.AddBody(tile);
             tile.SetPosition(448, (i * 64) + 512);
         }
@@ -175,23 +181,23 @@ public class MyGame : Game
         // First floor button gap wall (horizontal + block down)
         for (int i = 0; i < 3; i++)
         {
-            Tile tile = new Tile();
+            Tile tile = new Tile(210);
             world.AddBody(tile);
             tile.SetPosition((i * 64) + 64, 608);
         }
 
-        Tile tileb = new Tile();
+        Tile tileb = new Tile(162);
         world.AddBody(tileb);
         tileb.SetPosition(192, 672);
 
-        Tile tilem = new Tile();
+        Tile tilem = new Tile(19);
         world.AddBody(tilem);
         tilem.SetPosition(832, 704);
 
         //Second floor floating wall1 (vertical)
         for (int i = 0; i < 2; i++)
         {
-            Tile tile = new Tile();
+            Tile tile = new Tile(47);
             world.AddBody(tile);
             tile.SetPosition(448, (i * 64) + 288);
         }
@@ -199,7 +205,7 @@ public class MyGame : Game
         //Second floor floating wall2 (horizontal)
         for (int i = 0; i < 3; i++)
         {
-            Tile tile = new Tile();
+            Tile tile = new Tile(214);
             world.AddBody(tile);
             tile.SetPosition((i * 64) + 384, 128);
         }
@@ -207,7 +213,7 @@ public class MyGame : Game
         //Second floor floating wall3 (horizontal)
         for (int i = 0; i < 2; i++)
         {
-            Tile tile = new Tile();
+            Tile tile = new Tile(214);
             world.AddBody(tile);
             tile.SetPosition((i * 64) + 704, 256);
         }
@@ -215,7 +221,7 @@ public class MyGame : Game
         //Second floor floating wall4 (horizontal)
         for (int i = 0; i < 2; i++)
         {
-            Tile tile = new Tile();
+            Tile tile = new Tile(214);
             world.AddBody(tile);
             tile.SetPosition((i * 64) + 1280, 256);
         }
@@ -223,7 +229,7 @@ public class MyGame : Game
         //Second floor floating wall5 (vertical)
         for (int i = 0; i < 2; i++)
         {
-            Tile tile = new Tile();
+            Tile tile = new Tile(47);
             world.AddBody(tile);
             tile.SetPosition(1536, (i * 64) + 288);
         }
@@ -231,15 +237,15 @@ public class MyGame : Game
         //Second floor ending platform (horizontal)
         for (int i = 0; i < 5; i++)
         {
-            Tile tile = new Tile();
+            Tile tile = new Tile(214);
             world.AddBody(tile);
-            tile.SetPosition((i* 64) + 1600, 192);
+            tile.SetPosition((i * 64) + 1600, 192);
         }
 
         //Ground floor platform
         for (int i = 0; i < 3; i++)
         {
-            Tile tile = new Tile();
+            Tile tile = new Tile(214);
             world.AddBody(tile);
             tile.SetPosition((i * 64) + 1856, 896);
         }
@@ -249,7 +255,7 @@ public class MyGame : Game
         //First floor
         for (int i = 0; i < 27; i++)
         {
-            Tile tile = new Tile();
+            Tile tile = new Tile(227);
             world.AddBody(tile);
             tile.SetPosition(i * 64, 768);
         }
@@ -257,7 +263,7 @@ public class MyGame : Game
         //Second floor
         for (int i = 0; i < 25; i++)
         {
-            Tile tile = new Tile();
+            Tile tile = new Tile(227);
             world.AddBody(tile);
             tile.SetPosition((i * 64) + 384, 448);
         }
@@ -266,7 +272,7 @@ public class MyGame : Game
         //Ceiling
         for (int i = 0; i < 31; i++)
         {
-            Tile tile = new Tile();
+            Tile tile = new Tile(30);
             world.AddBody(tile);
             tile.SetPosition(i * 64, 0);
         }
@@ -274,7 +280,7 @@ public class MyGame : Game
         //Floor
         for (int i = 0; i < 31; i++)
         {
-            Tile tile = new Tile();
+            Tile tile = new Tile(227);
             world.AddBody(tile);
             tile.SetPosition(i * 64, 1088);
         }
@@ -282,7 +288,7 @@ public class MyGame : Game
         //Left
         for (int i = 0; i < 17; i++)
         {
-            Tile tile = new Tile();
+            Tile tile = new Tile(57);
             world.AddBody(tile);
             tile.SetPosition(0, i * 64);
         }
@@ -290,17 +296,30 @@ public class MyGame : Game
         //Right
         for (int i = 0; i < 17; i++)
         {
-            Tile tile = new Tile();
+            Tile tile = new Tile(64);
             world.AddBody(tile);
             tile.SetPosition(game.width, i * 64);
         }
+
+        Canvas hudstripe = new Canvas(game.width, 100);
         #endregion
 
     }
 
     void Update()
     {
-        world.Step();
+        if (world != null)
+        {
+            if (paused == false)
+            {
+                if (Input.GetKeyDown(Key.P))
+                {
+                    paused = true;
+                    AddChild(new Menu((int)Menu.ScrType.PAUSEMENU));
+                }
+                world.Step();
+            }
+        }
     }
 
     static void Main()                          // Main() is the first method that's called when the program is run

@@ -9,7 +9,7 @@
 		//----------------------------------------------------\\
 		//						Constructor					  \\
 		//----------------------------------------------------\\
-		public StaticCrystal(int newReflectAngle, float newScale = 1) : base("Diamond.png", 32f, 32f)
+		public StaticCrystal(bool rotatable, bool clipable, int newReflectAngle, float newScale = 1) : base("Diamond.png", 32f, 32f, clipable, rotatable)
 		{
 			SetOrigin(width / 2, height / 2);
 			if (newScale != 1)
