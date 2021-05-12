@@ -110,46 +110,42 @@ public class MyGame : Game
         Rock rock3 = new Rock();
         world.AddBody(rock3);
         rock3.SetPosition(960, 1024);
-
-        Rock rock4 = new Rock();
-        world.AddBody(rock4);
-        rock4.SetPosition(1312, 192);
         #endregion
 
         // Crystals
         #region CRYSTALS
-        StaticCrystal sc = new StaticCrystal(10);
-        sc.rotation = 180;
+        StaticCrystal sc = new StaticCrystal(190);
+        sc.rotation = -280;
         world.AddBody(sc);
         sc.SetPosition(768, 512);
 
-        StaticCrystal sc2 = new StaticCrystal(280);
-        sc2.rotation = 90;
+        StaticCrystal sc2 = new StaticCrystal(340);
+        sc2.rotation = -430;
         world.AddBody(sc2);
         sc2.SetPosition(512, 576);
 
         StaticCrystal scleft = new StaticCrystal(80);
-        scleft.rotation = 90;
+        scleft.rotation = -170;
         world.AddBody(scleft);
         scleft.SetPosition(64, 256);
 
         StaticCrystal scup1 = new StaticCrystal(348);
-        scup1.rotation = 180;
+        scup1.rotation = -438;
         world.AddBody(scup1);
         scup1.SetPosition(768, 64);
 
         StaticCrystal scup2 = new StaticCrystal(260);
-        scup2.rotation = 180;
+        scup2.rotation = -350;
         world.AddBody(scup2);
         scup2.SetPosition(1088, 64);
 
         StaticCrystal scr1 = new StaticCrystal(340);
-        scr1.rotation = 90;
+        scr1.rotation = -430;
         world.AddBody(scr1);
         scr1.SetPosition(1600, 288);
 
         StaticCrystal scr2 = new StaticCrystal(185);
-        scr2.rotation = 180;
+        scr2.rotation = -275;
         world.AddBody(scr2);
         scr2.SetPosition(1856, 256);
         #endregion
@@ -400,6 +396,5 @@ public class MyGame : Game
     static void Main()                          // Main() is the first method that's called when the program is run
     {
         new MyGame().Start();    // Create a "MyGame" and start it
-        Console.WriteLine("FG");
     }
 }
