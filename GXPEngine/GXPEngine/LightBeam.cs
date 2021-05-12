@@ -13,17 +13,19 @@ public class LightBeam : Box
 	//----------------------------------------------------\\
 	//						Constructor					  \\
 	//----------------------------------------------------\\
-	public LightBeam(Box pOwner, int newDirection, int pSpeed = 0) : base("circle.png", 32f, 16f)
+	public LightBeam(Box pOwner, int newDirection, int pSpeed = 0) : base("LightBeam.png", 8f, 8f)
 	{
 		_speed = pSpeed;
 		plOwner = pOwner;
 		SetOrigin(width / 2, height / 2);
-		//position.x = plOwner.x + ((newDirection - 90) / 90) * plOwner.halfWidth;
 		position.x = plOwner.x;
 		position.y = plOwner.y;
-		if (_speed != 0) _spawnPos = new Vec2(position.x, position.y);
+		if (_speed != 0)
+		{
+			_spawnPos = new Vec2(position.x, position.y);
+			alpha = 0;
+		}
 		changeDirection(newDirection);
-
 	}
 
 	//----------------------------------------------------\\

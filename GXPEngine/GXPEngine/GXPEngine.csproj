@@ -38,11 +38,16 @@
   <ItemGroup>
     <Compile Include="Body.cs" />
     <Compile Include="Box.cs" />
+    <Compile Include="Button.cs" />
     <Compile Include="Circle.cs" />
     <Compile Include="CollisionInfo.cs" />
+    <Compile Include="Exit.cs" />
+    <Compile Include="Gate.cs" />
     <Compile Include="GXPEngine\AddOns\Gizmos.cs" />
     <Compile Include="GXPEngine\AddOns\TiledLoader.cs" />
     <Compile Include="LightBeam.cs" />
+    <Compile Include="Menu.cs" />
+    <Compile Include="MenuButton.cs" />
     <Compile Include="MyGame.cs" />
     <Compile Include="GXPEngine\Canvas.cs" />
     <Compile Include="GXPEngine\Game.cs" />
@@ -85,11 +90,12 @@
     <Compile Include="Player2.cs" />
     <Compile Include="Rock.cs" />
     <Compile Include="RotatingCrystal.cs" />
+    <Compile Include="Sapling.cs" />
+    <Compile Include="Seed.cs" />
     <Compile Include="Smoke.cs" />
     <Compile Include="StaticCrystal.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="Vector2.cs" />
-    <Compile Include="Vines.cs" />
     <Compile Include="World.cs" />
   </ItemGroup>
 </Project>

@@ -1,24 +1,28 @@
-﻿using GXPEngine;
-
-namespace GXPEngine
+﻿namespace GXPEngine
 {
 	public class StaticCrystal : Box
 	{
 		//Private fields
-		private int _reflectAngle;
-		private bool _activated = false;
+		public int _reflectAngle { get; set; }
+		public bool _activated { get; set; }
 
 		//----------------------------------------------------\\
 		//						Constructor					  \\
 		//----------------------------------------------------\\
-		public StaticCrystal(int newReflectAngle) : base("square.png", 32f, 32f)
+		public StaticCrystal(bool rotatable, bool clipable, int newReflectAngle, float newScale = 1) : base("Diamond.png", 32f, 32f, clipable, rotatable)
 		{
 			SetOrigin(width / 2, height / 2);
+			if (newScale != 1)
+            {
+				halfWidth *= newScale;
+				halfHeight *= newScale;
+				scale *= newScale;
+			}
 			_reflectAngle = newReflectAngle;
 		}
 
 		//----------------------------------------------------\\
-		//						collision					  \\
+		//						OnLightBeam					  \\
 		//----------------------------------------------------\\
 		public void OnLightBeam()
 		{

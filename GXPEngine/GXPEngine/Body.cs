@@ -19,7 +19,7 @@ namespace GXPEngine
         public Body(string filename, bool pMovable = false) : base(filename, 1, 1)
         {
             movable = pMovable;
-            initializeAnimFrames(width / 64, height / 64);
+            //initializeAnimFrames(width / spriteSize, height / spriteSize);
 
             if (movable)
             {

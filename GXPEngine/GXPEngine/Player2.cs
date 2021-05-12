@@ -14,16 +14,20 @@ public class Player2 : Box
     private readonly float _jumpStrength = 4;
     private readonly float _abilityCooldown = 30;
 
+    private bool _invertGravity = false;
+    private bool _invertSprite = false;
     private float _abilityTimer = -1;
     private int _lastDirection;
 
     //----------------------------------------------------\\
     //						Constructor					  \\
     //----------------------------------------------------\\
-    public Player2() : base("colors.png", 32f, 32f, true, false)
+    public Player2() : base("LightSpriteSmall.png", 32f, 32f, true, false)
     {
-        halfWidth = width / 2;
-        halfHeight = height / 2;
+        initializeAnimFrames(width / 64, height / 128);
+        //initializeAnimFrames(width / spriteSize, height / spriteSize);
+        //halfWidth = width / 2;
+        //halfHeight = height / 2;
         SetOrigin(width / 2, height / 2);
         SetCycle(1, 7, 10);
     }
@@ -34,9 +38,17 @@ public class Player2 : Box
     private void controls()
     {
         arrowsInput();
-        if (Input.GetKey(Key.R) && _abilityTimer == -1)
+        if (Input.GetKeyDown(Key.K) && _abilityTimer == -1)
         {
             shoot();
+        }
+        if (Input.GetKeyDown(Key.I) && _abilityTimer == -1)
+        {
+            acceleration.y = -acceleration.y;
+            _invertGravity = !_invertGravity;
+            canJump = false;
+            _abilityTimer = _abilityCooldown;
+            changeAnimationCycle();
         }
     }
 
@@ -46,10 +58,17 @@ public class Player2 : Box
     private void arrowsInput()
     {
         //Jump
-        if (Input.GetKeyDown(Key.UP) && canJump == true)
+        if (Input.GetKeyDown(Key.UP) /*&& canJump == true*/)
         {
             velocity.y /= 2;
             velocity += new Vec2(0, -_jumpStrength);
+            canJump = false;
+        }
+
+        if (Input.GetKeyDown(Key.DOWN) && canJump == true)
+        {
+            velocity.y /= 2;
+            velocity += new Vec2(0, _jumpStrength);
             canJump = false;
         }
 
@@ -57,7 +76,7 @@ public class Player2 : Box
         if (Input.GetKey(Key.LEFT) && velocity.x > -_maxSpeed)
         {
             velocity += new Vec2(-_speedIncrease, 0);
-            Mirror(true, false);
+            _invertSprite = true;
             _lastDirection = Key.LEFT;
         }
 
@@ -65,7 +84,7 @@ public class Player2 : Box
         if (Input.GetKey(Key.RIGHT) && velocity.x < _maxSpeed)
         {
             velocity += new Vec2(_speedIncrease, 0);
-            Mirror(false, false);
+            _invertSprite = false;
             _lastDirection = Key.RIGHT;
         }
     }
@@ -92,7 +111,7 @@ public class Player2 : Box
     //----------------------------------------------------\\
     private void shoot()
     {
-        if (_abilityTimer == -1)
+        if (/*canJump &&*/ _abilityTimer == -1)
         {
             isBeamActivated = true;
             switch (_lastDirection)
@@ -128,24 +147,16 @@ public class Player2 : Box
     //----------------------------------------------------\\
     private void changeAnimationCycle()
     {
-
         if (velocity.x != 0 && velocity.y == 0)
         {
             SetCycle(1, 7, 10);
-            if (velocity.x > 0)
-            {
-                Mirror(false, false);
-            }
-
-            if (velocity.x < 0)
-            {
-                Mirror(true, false);
-            }
         }
         else
         {
+            SetCycle(1, 7, 100);
             SetFrame(0);
         }
+        Mirror(_invertSprite, _invertGravity);
     }
 
     //----------------------------------------------------\\
@@ -163,6 +174,6 @@ public class Player2 : Box
         position += velocity;
 
         x = position.x;
-        y = position.y;
+        y = position.y - Mathf.Sign(acceleration.y) * height/4;
     }
 }

@@ -5,12 +5,26 @@
         public float halfWidth;
         public float halfHeight;
         public bool clippable;
-        public Box(string filename, float pHalfWidth, float pHalfHeight, 
+        public Box(string filename, float pHalfWidth, float pHalfHeight,
             bool pMovable = false, bool pClippable = false) : base(filename, pMovable)
         {
             halfWidth = pHalfWidth;
             halfHeight = pHalfHeight;
             clippable = pClippable;
+        }
+
+        protected void RescaleBox(int targetSize)
+        {
+            RescaleBox(targetSize, targetSize);
+        }
+
+        protected void RescaleBox(int targetX, int targetY)
+        {
+            scaleX /= width / targetX;
+            scaleY /= height / targetY;
+
+            halfWidth *= scaleX;
+            halfHeight *= scaleY;
         }
 
         private CollisionInfo GetCircleOverlap(Circle other)
@@ -50,11 +64,11 @@
                 if (this.position.y <= other.position.y)
                 {
                     // true = isFloored (for velocity reset)
-                    return new CollisionInfo(new Vec2(-other.halfWidth, 0).UnitNormal(), overlap_v, true);
+                    return new CollisionInfo(new Vec2(-other.halfWidth, 0).UnitNormal(), overlap_v, acceleration.y > 0 ? true : false);
                 }
                 else
                 {
-                    return new CollisionInfo(new Vec2(other.halfWidth, 0).UnitNormal(), overlap_v);
+                    return new CollisionInfo(new Vec2(other.halfWidth, 0).UnitNormal(), overlap_v, acceleration.y < 0 ? true : false);
                 }
             }
             else if (overlap_h < overlap_v)

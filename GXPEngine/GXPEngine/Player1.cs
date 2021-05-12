@@ -9,7 +9,7 @@ public class Player1 : Box
     //private fields:
     private readonly float _maxSpeed = 3;
     private readonly float _speedIncrease = 0.05f;
-    private readonly float _jumpStrength = 4;
+    private readonly float _jumpStrength = 5;
     private readonly float _abilityCooldown = 30;
 
     public float _scale { get; private set; }
@@ -18,8 +18,10 @@ public class Player1 : Box
     //----------------------------------------------------\\
     //						Constructor					  \\
     //----------------------------------------------------\\
-    public Player1() : base("colors.png", 32f, 32f, true, false)
+    public Player1() : base("RockySpriteSmall.png", 32f, 32f, true, false)
     {
+        initializeAnimFrames(width / 64, height / 64);
+        //initializeAnimFrames(width / spriteSize, height / spriteSize);
         _scale = 1;
         halfWidth = width / 2 * _scale;
         halfHeight = height / 2 * _scale;
@@ -141,7 +143,7 @@ public class Player1 : Box
     private void changeAnimationCycle()
     {
 
-        if (velocity.x != 0 && velocity.y == 0)
+        if (velocity.x != 0 && velocity.y <= 0.1f && velocity.y >= 0)
         {
             SetCycle(1, 7, 10);
             if (velocity.x > 0)
@@ -156,6 +158,7 @@ public class Player1 : Box
         }
         else
         {
+            SetCycle(1, 7, 100);
             SetFrame(0);
         }
     }
@@ -185,6 +188,8 @@ public class Player1 : Box
 
         velocity += acceleration;
         position += velocity * (1 / _scale);
+        //position.x += velocity.x * (1 / _scale);
+        //position.y += velocity.y;
 
         x = position.x;
         y = position.y + height / 2;
