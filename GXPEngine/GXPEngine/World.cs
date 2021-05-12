@@ -95,10 +95,10 @@ namespace GXPEngine
                         float distance = (bodies[i].position - bodies[j].position).Length();
                         if (distance < 96f)
                         {
-                            if (Input.GetKeyDown(Key.SPACE))
+                            if (Input.GetKeyDown(Key.SPACE) || Input.GetKeyDown(Key.L))
                             {
                                 (bodies[j] as StaticCrystal).rotation += 30;
-                                (bodies[j] as StaticCrystal)._reflectAngle += 30;
+                                (bodies[j] as StaticCrystal)._reflectAngle -= 30;
                             }
                         }
                     }
@@ -166,7 +166,11 @@ namespace GXPEngine
                                 {
                                     // play sound here I guess
                                     bodies[i - 1].LateDestroy();
+                                    Smoke smoke = new Smoke(bodies[i - 1].x, bodies[i - 1].y, 2);
+                                    game.AddChild(smoke);
+                                    RemoveBody(body1);
                                     RemoveBody(bodies[i - 1]);
+                                    new Sound("PlantSeed.wav", false).Play();
                                 }
                             }
                         }
@@ -212,9 +216,11 @@ namespace GXPEngine
             {
                 StaticCrystal crystal = new StaticCrystal(false, true, 90, 1);
                 crystal.SetPosition(body2.position.x, body2.position.y);
+                crystal.acceleration = new Vec2(0, 0);
                 AddBody(crystal);
                 (body2 as Rock).Delete();
                 RemoveBody(body2);
+                new Sound("RockCrushed.wav", false).Play();
             }
 
             // change scene on exit:
@@ -281,7 +287,10 @@ namespace GXPEngine
                     {
                         Gate g = bodies[i - 1] as Gate;
                         // play sound here I guess
+                        Smoke smoke = new Smoke(g.x, g.y, 2);
+                        game.AddChild(smoke);
                         RemoveBody(g);
+                        new Sound("PlantSeed.wav", false).Play();
                     }
                 }
             }
