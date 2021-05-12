@@ -10,16 +10,17 @@ public class Player1 : Box
     private readonly float _maxSpeed = 3;
     private readonly float _speedIncrease = 0.05f;
     private readonly float _jumpStrength = 5;
-    private readonly float _abilityCooldown = 30;
+    private readonly float _abilityCooldown = 90;
 
     public float _scale { get; private set; }
-    private float _abilityTimer = -1;
+    public float _abilityTimer { get; private set; }
 
     //----------------------------------------------------\\
     //						Constructor					  \\
     //----------------------------------------------------\\
     public Player1() : base("RockySpriteSmall.png", 32f, 32f, true, false)
     {
+        _abilityTimer = -1;
         initializeAnimFrames(width / 64, height / 64);
         //initializeAnimFrames(width / spriteSize, height / spriteSize);
         _scale = 1;

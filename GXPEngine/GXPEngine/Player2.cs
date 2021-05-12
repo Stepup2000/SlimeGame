@@ -12,11 +12,11 @@ public class Player2 : Box
     private readonly float _maxSpeed = 3;
     private readonly float _speedIncrease = 0.05f;
     private readonly float _jumpStrength = 4;
-    private readonly float _abilityCooldown = 30;
+    private readonly float _abilityCooldown = 90;
 
     private bool _invertGravity = false;
     private bool _invertSprite = false;
-    private float _abilityTimer = -1;
+    public float _abilityTimer { get; private set; }
     private int _lastDirection;
 
     //----------------------------------------------------\\
@@ -24,6 +24,7 @@ public class Player2 : Box
     //----------------------------------------------------\\
     public Player2() : base("LightSpriteSmall.png", 32f, 32f, true, false)
     {
+        _abilityTimer = -1;
         initializeAnimFrames(width / 64, height / 128);
         //initializeAnimFrames(width / spriteSize, height / spriteSize);
         //halfWidth = width / 2;

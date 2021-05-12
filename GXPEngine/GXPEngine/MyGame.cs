@@ -6,8 +6,17 @@ public class MyGame : Game
 {
     public World world;
     public bool paused { get; set; }
+    public Sprite button1;
+    public Sprite button2;
+    public Sprite button3;
+    public Sprite button4;
+    public Sprite button5;
+    public Sprite button6;
 
-    public MyGame() : base(1920, 1080, false)
+    private Player1 player1;
+    private Player2 player2;
+
+    public MyGame() : base(1920, 1080, true)
     {
         AddChild(new Menu((int)Menu.ScrType.MAINMENU));      // main/start menu
         new Sound("Background.wav", true).Play();
@@ -20,11 +29,11 @@ public class MyGame : Game
         world = new World();
 
         #region IMPORTANT SINGULAR OBJECTS
-        Player1 player = new Player1();
-        world.AddBody(player);
-        player.SetPosition(64, 1024);
+        player1 = new Player1();
+        world.AddBody(player1);
+        player1.SetPosition(64, 1024);
 
-        Player2 player2 = new Player2();
+        player2 = new Player2();
         world.AddBody(player2);
         player2.SetPosition(128, 1024);
 
@@ -87,11 +96,11 @@ public class MyGame : Game
 
         #region BUTTONS
 
-        Button bseed = new Button(101, (int)Button.bType.SEED);
+        Button bseed = new Button(101, (int)Button.bType.SEED, "Soil.png");
         world.AddBody(bseed);
         bseed.SetPosition(1600, 1024);
 
-        Button bslime = new Button(102, (int)Button.bType.SLIME);
+        Button bslime = new Button(102, (int)Button.bType.SLIME, "Button.png");
         world.AddBody(bslime);
         bslime.SetPosition(64, 704);
 
@@ -114,13 +123,13 @@ public class MyGame : Game
 
         // Crystals
         #region CRYSTALS
-        StaticCrystal sc = new StaticCrystal(190);
-        sc.rotation = -280;
+        StaticCrystal sc = new StaticCrystal(170);
+        sc.rotation = -260;
         world.AddBody(sc);
         sc.SetPosition(768, 512);
 
-        StaticCrystal sc2 = new StaticCrystal(340);
-        sc2.rotation = -430;
+        StaticCrystal sc2 = new StaticCrystal(310);
+        sc2.rotation = -400;
         world.AddBody(sc2);
         sc2.SetPosition(512, 576);
 
@@ -129,8 +138,8 @@ public class MyGame : Game
         world.AddBody(scleft);
         scleft.SetPosition(64, 256);
 
-        StaticCrystal scup1 = new StaticCrystal(348);
-        scup1.rotation = -438;
+        StaticCrystal scup1 = new StaticCrystal(248);
+        scup1.rotation = -338;
         world.AddBody(scup1);
         scup1.SetPosition(768, 64);
 
@@ -187,6 +196,11 @@ public class MyGame : Game
         Tile tile9 = new Tile(53);
         world.AddBody(tile9);
         tile9.SetPosition(192, 608);
+
+        //First floor second single wall
+        Tile tileExtra = new Tile(19);
+        world.AddBody(tileExtra);
+        tileExtra.SetPosition(704, 704);
 
         Tile tileb = new Tile(162);
         world.AddBody(tileb);
@@ -372,9 +386,61 @@ public class MyGame : Game
         world.AddBody(tile39);
         tile39.SetPosition(1920, 192);
 
-        Canvas hudstripe = new Canvas(game.width, 100);
+        //First floor second single wall intersection
+        Tile tile40 = new Tile(109);
+        world.AddBody(tile40);
+        tile40.SetPosition(704, 768);
         #endregion
 
+        #region UI/BUTTONS
+        /*AddChild(new Sprite("StripInGame.png"));*/
+        button1 = new Sprite("Shrink.png");
+        AddChild(button1);
+        button1.SetXY(25, 12);
+        button2 = new Sprite("Grow.png");
+        AddChild(button2);
+        button2.SetXY(145, 12);
+        button3 = new Sprite("RotatePhysicalSlime.png");
+        AddChild(button3);
+        button3.SetXY(265, 12);
+        button4 = new Sprite("RotateLightSlime.png");
+        AddChild(button4);
+        button4.SetXY(1580, 12);
+        button5 = new Sprite("InvertGravity.png");
+        AddChild(button5);
+        button5.SetXY(1700, 12);
+        button6 = new Sprite("LightBeamButton.png");
+        AddChild(button6);
+        button6.SetXY(1820, 12);
+        #endregion
+    }
+
+    private void setUIButtonAlpha()
+    {
+        if (player1._abilityTimer >= 1)
+        {
+            button1.alpha = 1 / player1._abilityTimer;
+            button2.alpha = 1 / player1._abilityTimer;
+            button3.alpha = 1 / player1._abilityTimer;
+        }
+        else
+        {
+            button1.alpha = 1;
+            button2.alpha = 1;
+            button3.alpha = 1;
+        }
+        if (player2._abilityTimer >= 1)
+        {
+            button4.alpha = 1 / player2._abilityTimer;
+            button5.alpha = 1 / player2._abilityTimer;
+            button6.alpha = 1 / player2._abilityTimer;
+        }
+        else
+        {
+            button4.alpha = 1;
+            button5.alpha = 1;
+            button6.alpha = 1;
+        }
     }
 
     void Update()
@@ -388,6 +454,7 @@ public class MyGame : Game
                     paused = true;
                     AddChild(new Menu((int)Menu.ScrType.PAUSEMENU));
                 }
+                setUIButtonAlpha();
                 world.Step();
             }
         }

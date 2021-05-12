@@ -12,11 +12,23 @@
             SLIME
         }
 
-        public Button(int id, int type) : base("Button.png", 16f, 8f, false, true)
+        public Button(int id, int type, string name) : base(name, 16f, 8f, false, true)
         {
             _activateID = id;
             _buttonType = type;
-            SetOrigin(width/2, height/2);
+            initializeAnimFrames(width / 64, height / 64);
+            if (name == "Button.png")
+            {
+                changeOrigin(-width / 2);
+            }
+            else
+            {
+                changeOrigin(width / 3);
+            }
+        }
+        private void changeOrigin(int amount)
+        {
+            SetOrigin(width / 2, amount);
         }
     }
 }
