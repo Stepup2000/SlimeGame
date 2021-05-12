@@ -45,6 +45,7 @@ namespace GXPEngine
 
         public void DestroyLevel()
         {
+            main = null;
             bodies.Clear();
             game.RemoveChild(this);
             LateDestroy();

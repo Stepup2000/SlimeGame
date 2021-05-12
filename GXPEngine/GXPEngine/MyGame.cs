@@ -374,7 +374,6 @@ public class MyGame : Game
 
         Canvas hudstripe = new Canvas(game.width, 100);
         #endregion
-
     }
 
     void Update()

@@ -15,6 +15,7 @@ namespace GXPEngine
         private List<MenuButton> buttons = new List<MenuButton>();
         private int _menuType;
         private const int X_OFFSET = 394;
+        private const int Y_OFFSET = 300;
         public Menu(int type) : base()
         {
             _menuType = type;
@@ -51,13 +52,25 @@ namespace GXPEngine
                     MenuButton button_back = new MenuButton("BackButton.png", "BackButton_Pressed.png");
                     buttons.Add(button_back);
                     AddChild(button_back);
-                    button_back.SetOrigin(button_back.width / 2, button_back.height / 2);
                     button_back.SetXY(100, 70);
+                    MenuButton button_single = new MenuButton("Single_Black.png", "Single_Reavealed.png");
+                    buttons.Add(button_single);
+                    AddChild(button_single);
+                    button_single.SetXY(612, 588);
+                    MenuButton button_multi = new MenuButton("Multiplayer_Black.png", "Multiplayer_Revealed.png");
+                    buttons.Add(button_multi);
+                    AddChild(button_multi);
+                    button_multi.SetXY(1308, 588);
                     MenuButton button_load = new MenuButton("Confirmation Button.png", "Confirmation Button_Pressed.png");
                     buttons.Add(button_load);
                     AddChild(button_load);
-                    button_load.SetOrigin(button_load.width / 2, button_load.height / 2);
                     button_load.SetXY(960, 960);
+
+                    for (int i = 0; i < buttons.Count; i++)
+                    {
+                        buttons[i].SetOrigin(buttons[i].width / 2, buttons[i].height / 2);
+                    }
+
                     break;
                 case (int)ScrType.CONTROLS:
                     AddChild(new Sprite("ControlsMenu.png"));
@@ -69,7 +82,27 @@ namespace GXPEngine
                     break;
                 case (int)ScrType.PAUSEMENU:
                     AddChild(new Sprite("PauseMenu.png"));
-                    // todo: add the buttons (functionality should already be up)
+                    MenuButton buttonp1 = new MenuButton("Resume.png", "ResumeClicked.png");
+                    buttons.Add(buttonp1);
+                    AddChild(buttonp1);
+                    MenuButton buttonp2 = new MenuButton("Restart.png", "RestartClicked.png");
+                    buttons.Add(buttonp2);
+                    AddChild(buttonp2);
+                    MenuButton buttonp3 = new MenuButton("Settings.png", "Settings.png");
+                    buttons.Add(buttonp3);
+                    AddChild(buttonp3);
+                    MenuButton buttonp4 = new MenuButton("Controls.png", "ControlsClicked.png");
+                    buttons.Add(buttonp4);
+                    AddChild(buttonp4);
+                    MenuButton buttonp5 = new MenuButton("Exit.png", "ExitClicked.png");
+                    buttons.Add(buttonp5);
+                    AddChild(buttonp5);
+
+                    for (int i = 0; i < buttons.Count; i++)
+                    {
+                        buttons[i].SetOrigin(buttons[i].width / 2, buttons[i].height / 2);
+                        buttons[i].SetXY(960, Y_OFFSET + i * 132);
+                    }
                     break;
             }
         }
@@ -109,6 +142,8 @@ namespace GXPEngine
                         if (buttons[2].HitTestPoint(Input.mouseX, Input.mouseY))    // controls
                         {
                             game.AddChild(new Menu((int)ScrType.CONTROLS));
+                            LateDestroy();
+                            game.RemoveChild(this);
                         }
                         if (buttons[3].HitTestPoint(Input.mouseX, Input.mouseY))    // exit
                         {
@@ -122,7 +157,19 @@ namespace GXPEngine
                             LateDestroy();
                             game.RemoveChild(this);
                         }
-                        if (buttons[1].HitTestPoint(Input.mouseX, Input.mouseY))    // confirm - load level
+                        if (buttons[1].HitTestPoint(Input.mouseX, Input.mouseY))    // singleplayer - bogus (load level)
+                        {
+                            (game as MyGame).LoadLevel();
+                            LateDestroy();
+                            game.RemoveChild(this);
+                        }
+                        if (buttons[2].HitTestPoint(Input.mouseX, Input.mouseY))    // multiplayer - bogus (load level)
+                        {
+                            (game as MyGame).LoadLevel();
+                            LateDestroy();
+                            game.RemoveChild(this);
+                        }
+                        if (buttons[3].HitTestPoint(Input.mouseX, Input.mouseY))    // confirm - load level
                         {
                             (game as MyGame).LoadLevel();
                             LateDestroy();
@@ -132,7 +179,10 @@ namespace GXPEngine
                     case (int)ScrType.CONTROLS:
                         if (buttons[0].HitTestPoint(Input.mouseX, Input.mouseY))    // back
                         {
-                            game.AddChild(new Menu((int)ScrType.MAINMENU));
+                            if (World.main == null)
+                            {
+                                game.AddChild(new Menu((int)ScrType.MAINMENU));
+                            }
                             LateDestroy();
                             game.RemoveChild(this);
                         }
