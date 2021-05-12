@@ -48,6 +48,7 @@
     <Compile Include="LightBeam.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="MenuButton.cs" />
+    <Compile Include="Mouse.cs" />
     <Compile Include="MyGame.cs" />
     <Compile Include="GXPEngine\Canvas.cs" />
     <Compile Include="GXPEngine\Game.cs" />

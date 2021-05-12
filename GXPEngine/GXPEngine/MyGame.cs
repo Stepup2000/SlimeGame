@@ -16,10 +16,14 @@ public class MyGame : Game
     private Player1 player1;
     private Player2 player2;
 
+    private Mouse mouse;
+
     public MyGame() : base(1920, 1080, true)
     {
         AddChild(new Menu((int)Menu.ScrType.MAINMENU));      // main/start menu
         new Sound("Background.wav", true).Play();
+        mouse = new Mouse();
+        AddChild(mouse);
     }
 
     public void LoadLevel()
