@@ -96,7 +96,7 @@ namespace GXPEngine
                         float distance = (bodies[i].position - bodies[j].position).Length();
                         if (distance < 96f)
                         {
-                            if (Input.GetKeyDown(Key.SPACE) || Input.GetKeyDown(Key.L))
+                            if (Input.GetKeyDown(Key.R) || Input.GetKeyDown(Key.L))
                             {
                                 (bodies[j] as StaticCrystal).rotation += 30;
                                 (bodies[j] as StaticCrystal)._reflectAngle -= 30;

@@ -142,8 +142,8 @@ public class MyGame : Game
         world.AddBody(scleft);
         scleft.SetPosition(64, 256);
 
-        StaticCrystal scup1 = new StaticCrystal(248);
-        scup1.rotation = -338;
+        StaticCrystal scup1 = new StaticCrystal(258);
+        scup1.rotation = -348;
         world.AddBody(scup1);
         scup1.SetPosition(768, 64);
 
