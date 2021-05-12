@@ -10,13 +10,12 @@ public class MyGame : Game
     public MyGame() : base(1920, 1080, false)
     {
         AddChild(new Menu((int)Menu.ScrType.MAINMENU));      // main/start menu
-        AddChild(new Sprite("Background.png"));
         new Sound("Background.wav", true).Play();
-        loadLevel();
     }
 
     public void LoadLevel()
     {
+        AddChild(new Sprite("Background.png"));
         paused = false;
         world = new World();
 
@@ -129,27 +128,27 @@ public class MyGame : Game
         world.AddBody(sc2);
         sc2.SetPosition(512, 576);
 
-        StaticCrystal scleft = new StaticCrystal(false, false, 80);
+        StaticCrystal scleft = new StaticCrystal(80);
         scleft.rotation = 90;
         world.AddBody(scleft);
         scleft.SetPosition(64, 256);
 
-        StaticCrystal scup1 = new StaticCrystal(false, false, 348);
+        StaticCrystal scup1 = new StaticCrystal(348);
         scup1.rotation = 180;
         world.AddBody(scup1);
         scup1.SetPosition(768, 64);
 
-        StaticCrystal scup2 = new StaticCrystal(false, false, 260);
+        StaticCrystal scup2 = new StaticCrystal(260);
         scup2.rotation = 180;
         world.AddBody(scup2);
         scup2.SetPosition(1088, 64);
 
-        StaticCrystal scr1 = new StaticCrystal(false, false, 340);
+        StaticCrystal scr1 = new StaticCrystal(340);
         scr1.rotation = 90;
         world.AddBody(scr1);
         scr1.SetPosition(1600, 288);
 
-        StaticCrystal scr2 = new StaticCrystal(false, false, 185);
+        StaticCrystal scr2 = new StaticCrystal(185);
         scr2.rotation = 180;
         world.AddBody(scr2);
         scr2.SetPosition(1856, 256);
@@ -400,6 +399,7 @@ public class MyGame : Game
 
     static void Main()                          // Main() is the first method that's called when the program is run
     {
-        new MyGame().Start();                   // Create a "MyGame" and start it
+        new MyGame().Start();    // Create a "MyGame" and start it
+        Console.WriteLine("FG");
     }
 }

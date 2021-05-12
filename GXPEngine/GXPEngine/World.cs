@@ -214,7 +214,7 @@ namespace GXPEngine
             // crush rocks:
             if (body1 is Player1 && (body1 as Player1)._scale > 1 && body2 is Rock) 
             {
-                StaticCrystal crystal = new StaticCrystal(false, true, 90, 1);
+                StaticCrystal crystal = new StaticCrystal(90, 1);
                 crystal.SetPosition(body2.position.x, body2.position.y);
                 crystal.acceleration = new Vec2(0, 0);
                 AddBody(crystal);
