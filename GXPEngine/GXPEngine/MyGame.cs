@@ -87,11 +87,11 @@ public class MyGame : Game
 
         #region BUTTONS
 
-        Button bseed = new Button(101, (int)Button.bType.SEED);
+        Button bseed = new Button(101, (int)Button.bType.SEED, "Soil.png");
         world.AddBody(bseed);
         bseed.SetPosition(1600, 1024);
 
-        Button bslime = new Button(102, (int)Button.bType.SLIME);
+        Button bslime = new Button(102, (int)Button.bType.SLIME, "Button.png");
         world.AddBody(bslime);
         bslime.SetPosition(64, 704);
 
@@ -114,13 +114,13 @@ public class MyGame : Game
 
         // Crystals
         #region CRYSTALS
-        StaticCrystal sc = new StaticCrystal(190);
-        sc.rotation = -280;
+        StaticCrystal sc = new StaticCrystal(170);
+        sc.rotation = -260;
         world.AddBody(sc);
         sc.SetPosition(768, 512);
 
-        StaticCrystal sc2 = new StaticCrystal(340);
-        sc2.rotation = -430;
+        StaticCrystal sc2 = new StaticCrystal(310);
+        sc2.rotation = -400;
         world.AddBody(sc2);
         sc2.SetPosition(512, 576);
 
