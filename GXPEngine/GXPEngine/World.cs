@@ -172,6 +172,7 @@ namespace GXPEngine
                                     RemoveBody(body1);
                                     RemoveBody(bodies[i - 1]);
                                     new Sound("PlantSeed.wav", false).Play();
+                                    button.SetFrame(1);
                                 }
                             }
                         }
