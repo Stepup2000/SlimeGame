@@ -18,7 +18,7 @@ public class MyGame : Game
 
     private Mouse mouse;
 
-    public MyGame() : base(1920, 1080, true)
+    public MyGame() : base(1920, 1080, false)
     {
         AddChild(new Menu((int)Menu.ScrType.MAINMENU));      // main/start menu
         new Sound("Background.wav", true).Play();
