@@ -12,10 +12,11 @@
             SLIME
         }
 
-        public Button(int id, int type) : base("triangle.png", 32f, 32f, false, true)
+        public Button(int id, int type) : base("Button.png", 16f, 8f, false, true)
         {
             _activateID = id;
             _buttonType = type;
+            SetOrigin(width/2, height/2);
         }
     }
 }
